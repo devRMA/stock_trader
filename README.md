@@ -5,6 +5,7 @@
 Este projeto foi desenvolvido com os conhecimentos obtidos no curso de [vue.js](https://www.udemy.com/course/vue-js-completo/) e [laravel](https://www.udemy.com/course/curso-completo-do-desenvolvedor-laravel/).
 
 Api feita com laravel, e está rodando em [heroku](https://www.heroku.com/). Você pode ler a documentação da API [aqui](https://api-projeto-3.herokuapp.com/docs/).
+
 O frontend, está rodando em [vercel](https://vercel.com/). Você pode acessar o site [aqui](https://stocktrader-bay.vercel.app/).
 
 ## Tecnologias usadas
@@ -36,25 +37,54 @@ O frontend, está rodando em [vercel](https://vercel.com/). Você pode acessar o
 ## Passo a passo para rodar em localhost
 
 1. Vá na pasta do backend e instale as dependencias do php.
-  ``composer install``
 
-2. Instale as dependencias do node.
-   ``yarn install`` ou ``npm install``
+    ```shell
+    composer install
+    ```
+
+1. Instale as dependencias do node.
+    ``yarn install`` ou ``npm install``
 
 3. Crie o arquivo *.env* e copie o conteúdo do arquivo `.env.example`
 4. Gere as chaves (caso pergunte se você deseja sobrescrever, digite `yes`).
-   ``php artisan key:generate``
-   ``php artisan jwt:secret``
+    ``php artisan key:generate`` e ``php artisan jwt:secret``
 5. Vá ao arquivo `.env` e coloque as credenciais do seu banco de dados.
 6. Vá ao seu banco de dados relacional, e crie o banco `stock-trader`.
 7. Execute as migrations já populando a tabela de empresas.
-   ``php artisan migrate --seed``
+
+    ```shell
+    php artisan migrate --seed
+    ```
+
 8. Compile os assets.
-   ``yarn prod`` ou ``npm run prod``
-   (caso de o erro `'mix' não é reconhecido como um comando interno` use o comando `yarn add laravel-mix` e tente compilar de novo)
+
+    ```shell
+    yarn prod
+    ```
+
+    ou
+
+    ```shell
+    npm run prod
+    ```
+
+    (caso de o erro `'mix' não é reconhecido como um comando interno` use o comando `yarn add laravel-mix` e tente compilar de novo)
 9. Inicie a api.
-    ``php artisan serve``
+
+    ```shell
+    php artisan serve
+    ```
+
 10. Agora, entre na pasta do frontend, e instale as dependencias do node. (passo 2)
 11. Entre em [axios](/frontend/src/plugins/axios.js) e coloque onde a api está rodando. Caso a api esteja na porta 8000, não precisa mudar.
 12. Inicie o front.
-    ``yarn serve`` ou ``npm run serve``
+
+    ```shell
+    yarn serve
+    ```
+
+    ou
+
+    ```shell
+    npm run serve
+    ```
