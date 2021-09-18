@@ -1,2 +1,2 @@
 # stock-trader
- Projeto Stock Trader
+ Source do Projeto Stock Trader
