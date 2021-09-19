@@ -56,7 +56,7 @@ O frontend, está rodando em [vercel](https://vercel.com/). Você pode acessar o
     php artisan migrate --seed
     ```
 
-8. Compile os assets.
+8. Compile os assets e depois gere a documentação da API.
 
     ```shell
     yarn prod
@@ -67,9 +67,15 @@ O frontend, está rodando em [vercel](https://vercel.com/). Você pode acessar o
     ```shell
     npm run prod
     ```
+    
+    e depois
+
+    ```shell
+    php artisan scribe:generate 
+    ```
 
     (caso de o erro `'mix' não é reconhecido como um comando interno` use o comando `yarn add laravel-mix` e tente compilar de novo)
-9. Inicie a api.
+9. Inicie a API.
 
     ```shell
     php artisan serve
