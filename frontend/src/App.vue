@@ -1,13 +1,22 @@
 <template>
     <v-app>
         <transition name="fade" appear mode="out-in">
-            <Preloader v-if="loading" />
-            <div v-else>
+            <!-- <Preloader v-if="loading" /> -->
+            <!-- <div v-else> -->
+            <div>
                 <template v-if="$vuetify.breakpoint.smAndUp">
                     <NavBar />
                     <v-main>
                         <Rank />
                         <v-container>
+                            <v-alert
+                                color="orange"
+                                elevation="10"
+                                shaped
+                                type="warning"
+                            >
+                                Projeto descontinuado
+                            </v-alert>
                             <transition name="slide-y" mode="out-in">
                                 <router-view />
                             </transition>
@@ -55,14 +64,14 @@
 
 <script>
     import { mapActions } from "vuex";
-    import Preloader from "@/components/Preloader.vue";
+    // import Preloader from "@/components/Preloader.vue";
     import NavBar from "@/components/NavBar.vue";
     import Rank from "@/components/Rank.vue";
     export default {
         name: "App",
-        components: { Preloader, NavBar, Rank },
+        components: { /* Preloader, */NavBar, Rank },
         data: () => ({
-            loading: true,
+            loading: false,
             intervalProfile: null,
         }),
         methods: {
@@ -94,40 +103,40 @@
             },
         },
         mounted() {
-            setTimeout(() => {
-                this.$http.get("/ping");
-                if (this.$cookies.isKey("token")) {
-                    this.$http
-                        .get("/profile/@me")
-                        .then((resp) => {
-                            this.loginAction(resp.data);
-                            this.loading = false;
-                        })
-                        .catch((error) => {
-                            if (error.response.status === 401) {
-                                this.logoutAction();
-                            } else {
-                                this.alert = {
-                                    show: true,
-                                    color: "error",
-                                    message:
-                                        "Ops, ocorreu um erro inesperado, por favor, reporte este erro para o desenvolvedor.",
-                                    timeout: -1,
-                                };
-                                console.log("Erro inesperado");
-                                console.log(
-                                    "For favor, reporte este erro: ",
-                                    error.response
-                                );
-                            }
-                        });
-                    this.intervalProfile = setInterval(() => {
-                        this.refreshProfile();
-                    }, 10000);
-                } else {
-                    this.loading = false;
-                }
-            }, 1000);
+            // setTimeout(() => {
+            //     this.$http.get("/ping");
+            //     if (this.$cookies.isKey("token")) {
+            //         this.$http
+            //             .get("/profile/@me")
+            //             .then((resp) => {
+            //                 this.loginAction(resp.data);
+            //                 this.loading = false;
+            //             })
+            //             .catch((error) => {
+            //                 if (error.response.status === 401) {
+            //                     this.logoutAction();
+            //                 } else {
+            //                     this.alert = {
+            //                         show: true,
+            //                         color: "error",
+            //                         message:
+            //                             "Ops, ocorreu um erro inesperado, por favor, reporte este erro para o desenvolvedor.",
+            //                         timeout: -1,
+            //                     };
+            //                     console.log("Erro inesperado");
+            //                     console.log(
+            //                         "For favor, reporte este erro: ",
+            //                         error.response
+            //                     );
+            //                 }
+            //             });
+            //         this.intervalProfile = setInterval(() => {
+            //             this.refreshProfile();
+            //         }, 10000);
+            //     } else {
+            //         this.loading = false;
+            //     }
+            // }, 1000);
         },
         beforeDestroy() {
             if (this.intervalProfile) {

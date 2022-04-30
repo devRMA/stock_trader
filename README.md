@@ -1,5 +1,5 @@
 <h1 align="center">
-    Projeto Stock Trader
+    Projeto Stock Trader (Descontinuado)
 </h1>
 
 Este projeto foi desenvolvido com os conhecimentos obtidos no curso de [vue.js](https://www.udemy.com/course/vue-js-completo/) e [laravel](https://www.udemy.com/course/curso-completo-do-desenvolvedor-laravel/).
