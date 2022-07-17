@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG'),
 
     /*
     |--------------------------------------------------------------------------
@@ -139,8 +139,8 @@ return [
     */
 
     'maintenance' => [
-        'driver' => 'file',
-        // 'store'  => 'redis',
+        'driver' => 'cache',
+        'store' => 'redis',
     ],
 
     /*
@@ -209,7 +209,6 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
 ];
