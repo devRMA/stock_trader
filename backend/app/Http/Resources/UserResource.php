@@ -22,6 +22,7 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $attrs = collect((array) parent::toArray($request));
+        $attrs->put('created_at', $this->resource->created_at->toDateString());
 
         if ($this->resource->getShowPrivatesAttribute()) {
             $attrs->put('two_factor', $this->resource->hasEnabledTwoFactorAuthentication());
