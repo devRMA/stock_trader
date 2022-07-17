@@ -1,8 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/laravel,phpunit,php-cs-fixer,nextjs,react,node,storybookjs,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=laravel,phpunit,php-cs-fixer,nextjs,react,node,storybookjs,visualstudiocode
 
 ### Laravel ###
-/vendor/
+vendor/
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -23,7 +22,7 @@ storage/*.key
 .env
 Homestead.yaml
 Homestead.json
-/.vagrant
+.vagrant
 .phpunit.result.cache
 
 ### NextJS ###
@@ -185,12 +184,8 @@ dist
 # Generated files
 .phpunit.cache
 
-# PHPUnit
-/app/phpunit.xml
-/phpunit.xml
-
 # Build data
-/build/
+build/
 
 ### react ###
 .DS_*
@@ -235,5 +230,3 @@ storybook-static/
 
 # Ignore code-workspaces
 *.code-workspace
-
-# End of https://www.toptal.com/developers/gitignore/api/laravel,phpunit,php-cs-fixer,nextjs,react,node,storybookjs,visualstudiocode
