@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// GET /
 Route::get('/', function () {
     return response()->json('Stock Trader API v2');
 });
+
+// GET users/@me
+Route::get('users/@me', function () {
+    /** @var \App\Models\User */
+    $user = auth()->user();
+    $user->showPrivatesAttributes();
+
+    return response()->json(new UserResource($user));
+})->middleware('auth')->name('me');
