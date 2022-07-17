@@ -32,6 +32,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'money',
     ];
 
     /**
@@ -79,5 +80,18 @@ class User extends Authenticatable
     public function getShowPrivatesAttribute(): bool
     {
         return $this->showPrivatesAttribute;
+    }
+
+    public function getMoney(): int
+    {
+        return (int) $this->money;
+    }
+
+    public function setMoney(int|float $money): self
+    {
+        if ($money <= 0) {
+            $money = 0;
+        }
+        return $this->setAttribute('money', (string) $money);
     }
 }
