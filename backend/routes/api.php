@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsersController;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::get('users/@me', function () {
 
     return response()->json(new UserResource($user));
 })->middleware('auth')->name('me');
+
+Route::apiResource('users', UsersController::class);
