@@ -62,6 +62,14 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        abort_unless($user->id == auth()->id(), 403);
+
+        auth()->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+
+        $user->delete();
+
+        return response()->noContent();
     }
 }
