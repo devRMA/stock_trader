@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 // GET /
 Route::get('/', function () {
@@ -29,4 +29,8 @@ Route::get('users/@me', function () {
     return response()->json(new UserResource($user));
 })->middleware('auth')->name('me');
 
-Route::apiResource('users', UsersController::class);
+Route::apiResource('users', UsersController::class, [
+    'except' => [
+        'store',
+    ],
+]);
