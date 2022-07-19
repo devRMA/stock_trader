@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only('update', 'delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,17 +26,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
@@ -39,7 +33,8 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return response()
+            ->json(new UserResource($user));
     }
 
     /**
