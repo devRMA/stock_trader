@@ -73,8 +73,8 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
-      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_DEFAULT_EMAIL: ${DB_USERNAME}
+      PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
     ports:
       - "1234:80"
     depends_on:
