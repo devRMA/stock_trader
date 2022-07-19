@@ -92,6 +92,7 @@ class User extends Authenticatable
         if ($money <= 0) {
             $money = 0;
         }
+
         return $this->setAttribute('money', (string) $money);
     }
 }

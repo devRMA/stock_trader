@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
-     /**
+    /**
      * The resource instance.
      *
      * @var \App\Models\User
@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             $attrs->put('two_factor', $this->resource->hasEnabledTwoFactorAuthentication());
         } else {
             $attrs->forget([
-                'email'
+                'email',
             ]);
         }
 
