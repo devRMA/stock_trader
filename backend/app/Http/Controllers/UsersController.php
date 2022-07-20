@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class UsersController extends Controller
 {
@@ -22,7 +23,13 @@ class UsersController extends Controller
     public function index()
     {
         return response()
-            ->json(new UserCollection(User::orderBy('money')->fastPaginate()));
+            ->json(new UserCollection(
+                Cache::remember(
+                    'users'.request()->get('page', 1),
+                    120,
+                    fn () => User::orderBy('money')->fastPaginate()
+                )
+            ));
     }
 
     /**
