@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'last_price_update' => now(),
             'max_actions' => 100000,
         ]);
-        if (config('app.env')) {
+        if (config('app.debug')) {
             User::factory(20)->create();
         }
     }
