@@ -40,6 +40,9 @@ class Company extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'sell_amount',
+        'buy_amount',
+        'last_price_update',
         'created_at',
         'updated_at',
     ];
