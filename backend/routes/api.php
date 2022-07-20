@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UsersController;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,16 @@ Route::apiResource('users', UsersController::class, [
         'store',
     ],
 ]);
+
+Route::controller(CompanyController::class)
+    ->name('companies.')
+    ->prefix('companies')
+    ->group(function () {
+        // GET companies/
+        Route::get('/', 'index')
+            ->name('index');
+
+        // GET companies/@me
+        Route::get('@me', 'myCompanies')
+            ->name('my_companies');
+    });
