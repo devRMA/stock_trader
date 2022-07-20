@@ -18,8 +18,8 @@ it('should be possible to register a new user account', function () {
     postJson('register', [
         'name' => $user->name,
         'email' => $user->email,
-        'password' => '#@Password123@#',
-        'password_confirmation' => '#@Password123@#',
+        'password' => 'password',
+        'password_confirmation' => 'password',
     ])
         ->assertCreated();
 
@@ -42,8 +42,8 @@ it('should return error, if there exists user with this e-mail', function () {
     postJson('register', [
         'name' => $other->name,
         'email' => $user->email,
-        'password' => '#@Password123@#',
-        'password_confirmation' => '#@Password123@#',
+        'password' => 'password',
+        'password_confirmation' => 'password',
     ])
         ->assertUnprocessable()
         ->assertJsonValidationErrors([
