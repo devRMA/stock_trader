@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,6 +16,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_confirmed_at
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $actions
+ * @property string $money
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
@@ -56,10 +59,24 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'money' => 'integer',
         'email_verified_at' => 'datetime',
     ];
 
     protected $showPrivatesAttribute = false;
+
+    /**
+     * Relation N to N with Company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\Company>
+     */
+    public function actions(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class)
+            ->using(CompanyUser::class)
+            ->withPivot('amount')
+            ->withTimestamps();
+    }
 
     // * GETTERS & SETTERS
 
