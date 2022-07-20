@@ -15,7 +15,9 @@
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./app/Actions</directory>
+            <directory suffix="Controller.php">./app/Http/Controllers</directory>
+            <directory suffix="Request.php">./app/Http/Requests</directory>
         </include>
         <report>
             <clover outputFile="coverage/clover.xml" />
