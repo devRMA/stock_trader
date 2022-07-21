@@ -27,7 +27,7 @@ class UsersController extends Controller
                 Cache::remember(
                     'users'.request()->get('page', 1),
                     120,
-                    fn () => User::orderBy('money')->fastPaginate()
+                    fn () => User::orderBy('money', 'desc')->fastPaginate(10)
                 )
             ));
     }
