@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\assertGuest;
 use function Pest\Laravel\deleteJson;
-use Laravel\Sanctum\Sanctum;
 
 it('should remove account from the database if user delete account', function () {
     /** @var \App\Models\User */
@@ -32,4 +32,3 @@ it('should return error if try delete account without login', function () {
     deleteJson(route('users.destroy', ['user' => $other]))
         ->assertForbidden();
 });
-
