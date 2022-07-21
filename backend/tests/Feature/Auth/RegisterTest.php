@@ -13,8 +13,6 @@ it('should be possible to register a new user account', function () {
     /** @var \App\Models\User */
     $user = User::factory()->make();
 
-    ds($user->email, User::all()->pluck('email'));
-
     postJson('register', [
         'name' => $user->name,
         'email' => $user->email,
