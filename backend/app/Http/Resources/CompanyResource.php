@@ -23,6 +23,10 @@ class CompanyResource extends JsonResource
     {
         $attrs = collect((array) parent::toArray($request));
 
+        $attrs->put(
+            'actions_available',
+            $this->resource->max_actions - $this->resource->investors->sum('pivot.amount')
+        );
         if ($attrs->has('pivot')) {
             $attrs->put('amount', $this->resource->pivot->amount);
             $attrs->forget('pivot');
