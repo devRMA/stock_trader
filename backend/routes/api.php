@@ -30,11 +30,29 @@ Route::get('users/@me', function () {
     return response()->json(new UserResource($user));
 })->middleware('auth')->name('me');
 
-Route::apiResource('users', UsersController::class, [
-    'except' => [
-        'store',
-    ],
-]);
+Route::controller(UsersController::class)
+    ->name('users.')
+    ->prefix('users')
+    ->group(function () {
+        // GET users/
+        Route::get('/', 'index')
+            ->name('index');
+
+        // GET users/{user}
+        Route::get('{user}', 'show')
+            ->where('user', '[0-9]+')
+            ->name('show');
+
+        // PUT users/{user}
+        Route::put('{user}', 'update')
+            ->where('user', '[0-9]+')
+            ->name('update');
+
+        // DELETE users/{user}
+        Route::delete('{user}', 'destroy')
+            ->where('user', '[0-9]+')
+            ->name('destroy');
+    });
 
 Route::controller(CompanyController::class)
     ->name('companies.')
@@ -43,6 +61,10 @@ Route::controller(CompanyController::class)
         // GET companies/
         Route::get('/', 'index')
             ->name('index');
+
+        // POST companies/{company}
+        Route::post('{company}', 'buyActions')
+            ->name('buy_actions');
 
         // GET companies/@me
         Route::get('@me', 'myCompanies')
