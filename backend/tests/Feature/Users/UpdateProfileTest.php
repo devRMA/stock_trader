@@ -14,8 +14,8 @@ it('should change the profile information of the logged in user', function () {
     Sanctum::actingAs($user);
 
     putJson(route('users.update', ['user' => $user]), [
-        'name'       => $other->name,
-        'email'      => $user->email,
+        'name' => $other->name,
+        'email' => $user->email,
     ])
         ->assertOk();
 
