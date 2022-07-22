@@ -6,7 +6,6 @@ use App\Http\Requests\BuyCompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Models\Company;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
 
 class CompanyController extends Controller
 {
@@ -24,11 +23,7 @@ class CompanyController extends Controller
     {
         return response()
             ->json(new CompanyCollection(
-                Cache::remember(
-                    'companies' . request()->get('page', 1),
-                    120,
-                    fn() => Company::orderBy('name')->fastPaginate()
-                )
+                Company::orderBy('name')->fastPaginate()
             ));
     }
 
@@ -55,7 +50,40 @@ class CompanyController extends Controller
      */
     public function buyActions(BuyCompanyRequest $request, Company $company)
     {
+        $availableActions = $company->max_actions - $company->investors->sum('pivot.amount');
+        $amount = abs($request->validated('amount'));
+
+        abort_if(
+            ($amount > $availableActions) || ($availableActions <= 0),
+            Response::HTTP_NOT_ACCEPTABLE,
+            __('Company has no more actions available')
+        );
+
+        /** @var \App\Models\User */
+        $user = auth()->user();
+        $totalPrice = $amount * $company->price;
+
+        abort_unless(
+            $user->money >= $totalPrice,
+            Response::HTTP_I_AM_A_TEAPOT,
+            __('You do not have enough money')
+        );
+
+        if ($user->money >= $totalPrice) {
+            $user->money -= $totalPrice;
+            $user->save();
+            $action = $user->actions->firstWhere('id', $company->id);
+            if ($action) {
+                $action->pivot->amount += $amount;
+                $action->push();
+            } else {
+                $user->actions()->attach($company, [
+                    'amount' => $amount,
+                ]);
+            }
+        }
+
         return response()
-            ->json('', Response::HTTP_NOT_IMPLEMENTED);
+            ->json('');
     }
 }
