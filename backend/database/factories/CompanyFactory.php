@@ -22,7 +22,7 @@ class CompanyFactory extends Factory
             'buy_amount' => fake()->numberBetween(1, 100),
             'price' => fake()->numberBetween(1, 100),
             'last_price_update' => now(),
-            'max_actions' => fake()->numberBetween(1, 100),
+            'max_actions' => fake()->numberBetween(5, 100),
         ];
     }
 }
