@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\postJson;
 
-it('should return error if the company has no more shares available', function () {
+it('should return error if the company has no more actions available', function () {
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
     /** @var \App\Models\User */
@@ -35,7 +35,7 @@ it('should return error if the company has no more shares available', function (
         ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
 });
 
-it('should allow buying shares if the user has the money', function () {
+it('should allow buying actions if the user has the money', function () {
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
     /** @var \App\Models\User */
@@ -48,3 +48,24 @@ it('should allow buying shares if the user has the money', function () {
     ])
         ->assertOk();
 });
+
+it('it should be possible to buy more actions of a company that already owns actions', function () {
+    /** @var \App\Models\Company */
+    $company = Company::factory()->create();
+    /** @var \App\Models\User */
+    $user = User::factory()->create();
+
+    $user->actions()->attach($company, [
+        'amount' => 1,
+    ]);
+
+    Sanctum::actingAs($user, guard:'web');
+
+    postJson(route('companies.buy_actions', ['company' => $company]), [
+        'amount' => '1',
+    ])
+        ->assertOk();
+
+    expect($user->fresh()->actions)->toHaveCount(1);
+});
+
