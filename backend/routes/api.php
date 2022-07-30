@@ -64,10 +64,12 @@ Route::controller(CompanyController::class)
 
         // POST companies/{company}
         Route::post('{company}', 'buyActions')
+            ->where('company', '[0-9]+')
             ->name('buy_actions');
 
         // PUT companies/{company}
         Route::put('{company}', 'sellActions')
+            ->where('company', '[0-9]+')
             ->name('sell_actions');
 
         // GET companies/@me
