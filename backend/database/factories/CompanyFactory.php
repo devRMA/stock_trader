@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CompanyRisk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class CompanyFactory extends Factory
             'buy_amount' => fake()->numberBetween(1, 100),
             'price' => fake()->numberBetween(1, 100),
             'last_price_update' => now(),
+            'risk' => fake()->randomElement(CompanyRisk::values()),
             'max_actions' => fake()->numberBetween(5, 100),
         ];
     }
