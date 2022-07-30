@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CompanyRisk;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $buy_amount
  * @property int $price
  * @property \Illuminate\Support\Carbon $last_price_update
+ * @property \App\Enums\CompanyRisk $risk
  * @property int $max_actions
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
@@ -32,6 +34,7 @@ class Company extends Model
         'buy_amount',
         'price',
         'last_price_update',
+        'risk',
         'max_actions',
     ];
 
@@ -55,6 +58,7 @@ class Company extends Model
      */
     protected $casts = [
         'last_price_update' => 'datetime',
+        'risk' => CompanyRisk::class,
     ];
 
     /**
