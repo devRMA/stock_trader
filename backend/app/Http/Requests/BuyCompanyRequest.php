@@ -26,7 +26,6 @@ class BuyCompanyRequest extends FormRequest
         return [
             'amount' => [
                 'required',
-                'string',
                 'integer',
             ],
         ];
