@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BuyCompanyRequest;
+use App\Http\Requests\SellCompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Models\Company;
 use Illuminate\Http\Response;
@@ -85,6 +86,18 @@ class CompanyController extends Controller
             $company->save();
         }
 
+        return response()->json('');
+    }
+
+    /**
+     * Sell actions from a company.
+     *
+     * @param  \App\Http\Requests\SellCompanyRequest  $request
+     * @param  \App\Models\Company  $company
+     * @return \Illuminate\Http\Response
+     */
+    public function sellActions(SellCompanyRequest $request, Company $company)
+    {
         return response()->json('');
     }
 }
