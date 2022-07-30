@@ -66,6 +66,10 @@ Route::controller(CompanyController::class)
         Route::post('{company}', 'buyActions')
             ->name('buy_actions');
 
+        // PUT companies/{company}
+        Route::put('{company}', 'sellActions')
+            ->name('sell_actions');
+
         // GET companies/@me
         Route::get('@me', 'myCompanies')
             ->name('my_companies');
