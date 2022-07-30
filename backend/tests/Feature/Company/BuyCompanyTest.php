@@ -69,3 +69,25 @@ it('it should be possible to buy more actions of a company that already owns act
     expect($user->fresh()->actions)->toHaveCount(1);
 });
 
+it('should increase the amount of purchases that the company had', function () {
+    /** @var \App\Models\Company */
+    $company = Company::factory()->create();
+    /** @var \App\Models\User */
+    $user = User::factory()->create();
+
+    Sanctum::actingAs($user, guard:'web');
+
+    postJson(route('companies.buy_actions', ['company' => $company]), [
+        'amount' => '1',
+    ])
+        ->assertOk();
+
+    expect($company->fresh()->buy_amount)->toBe(1);
+
+    postJson(route('companies.buy_actions', ['company' => $company]), [
+        'amount' => '1',
+    ])
+        ->assertOk();
+
+    expect($company->fresh()->buy_amount)->toBe(2);
+});
