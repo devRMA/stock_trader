@@ -2,10 +2,10 @@
 
 use App\Models\Company;
 use App\Models\User;
-use function Pest\Laravel\postJson;
-use function Pest\Laravel\putJson;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\postJson;
+use function Pest\Laravel\putJson;
 
 it('should return error if the user has no actions in the company to sell', function () {
     /** @var \App\Models\Company */
@@ -25,7 +25,7 @@ it('should increase the amount of sales the company has had', function () {
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
     /** @var \App\Models\User */
-    $user           = User::factory()->create();
+    $user = User::factory()->create();
     $originalAmount = $company->sell_amount;
 
     $user->actions()->attach($company, [
@@ -46,7 +46,7 @@ it("should increase user's money after sale", function () {
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
     /** @var \App\Models\User */
-    $user          = User::factory()->create();
+    $user = User::factory()->create();
     $originalMoney = $user->money;
 
     $user->actions()->attach($company, [
