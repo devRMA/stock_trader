@@ -81,9 +81,10 @@ class CompanyController extends Controller
                     'amount' => $amount,
                 ]);
             }
+            $company->buy_amount += $amount;
+            $company->save();
         }
 
-        return response()
-            ->json('');
+        return response()->json('');
     }
 }
