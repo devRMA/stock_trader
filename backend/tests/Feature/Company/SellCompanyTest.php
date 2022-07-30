@@ -16,7 +16,7 @@ it('should return error if the user has no actions in the company to sell', func
     Sanctum::actingAs($user, guard:'web');
 
     putJson(route('companies.sell_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
 });
@@ -35,7 +35,7 @@ it('should increase the amount of sales the company has had', function () {
     Sanctum::actingAs($user, guard:'web');
 
     putJson(route('companies.sell_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 
@@ -56,7 +56,7 @@ it("should increase user's money after sale", function () {
     Sanctum::actingAs($user, guard:'web');
 
     putJson(route('companies.sell_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 
@@ -76,22 +76,22 @@ it('should be possible to buy the action after the sale', function () {
     Sanctum::actingAs($user, guard:'web');
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
 
     putJson(route('companies.sell_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '2',
+        'amount' => 2,
     ])
         ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 });

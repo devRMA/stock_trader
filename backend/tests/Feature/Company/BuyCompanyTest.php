@@ -19,7 +19,7 @@ it('should return error if the company has no more actions available', function 
     Sanctum::actingAs($user, guard:'web');
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
 
@@ -30,7 +30,7 @@ it('should return error if the company has no more actions available', function 
     ]);
 
     postJson(route('companies.buy_actions', ['company' => $otherCompany]), [
-        'amount' => '2',
+        'amount' => 2,
     ])
         ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
 });
@@ -44,7 +44,7 @@ it('should allow buying actions if the user has the money', function () {
     Sanctum::actingAs($user, guard:'web');
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 });
@@ -62,7 +62,7 @@ it('it should be possible to buy more actions of a company that already owns act
     Sanctum::actingAs($user, guard:'web');
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 
@@ -79,14 +79,14 @@ it('should increase the amount of purchases that the company had', function () {
     Sanctum::actingAs($user, guard:'web');
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 
     expect($company->fresh()->buy_amount)->toBe($originalAmount + 1);
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
-        'amount' => '1',
+        'amount' => 1,
     ])
         ->assertOk();
 
