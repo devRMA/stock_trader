@@ -16,6 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_confirmed_at
+ * @property \App\Models\CompanyUser $pivot
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $actions
  * @property string $money
  * @property \Illuminate\Support\Carbon|null $email_verified_at
