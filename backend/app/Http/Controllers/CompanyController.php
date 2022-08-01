@@ -12,7 +12,11 @@ class CompanyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('myCompanies');
+        $this->middleware('auth')->only(
+            'myCompanies',
+            'buyActions',
+            'sellActions'
+        );
     }
 
     /**
@@ -98,6 +102,29 @@ class CompanyController extends Controller
      */
     public function sellActions(SellCompanyRequest $request, Company $company)
     {
+        abort_if(
+            $company->investors->doesntContain(auth()->id()),
+            Response::HTTP_NOT_ACCEPTABLE,
+            __('You do not own actions in this company')
+        );
+
+        $amount = abs($request->validated('amount'));
+        /** @var \App\Models\User */
+        $user = $company->investors->find(auth()->id());
+
+        abort_if(
+            $user->pivot->amount < $amount,
+            Response::HTTP_NOT_ACCEPTABLE,
+            __("You don't have enough stock")
+        );
+
+        $user->money += $amount * $company->price;
+        $user->pivot->amount -= $amount;
+        $user->push();
+
+        $company->sell_amount += $amount;
+        $company->save();
+
         return response()->json('');
     }
 }

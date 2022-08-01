@@ -63,6 +63,29 @@ it("should increase user's money after sale", function () {
     expect($user->fresh()->money)->toBe($originalMoney + $company->price);
 });
 
+it("should return an error if the user try to sell an amount that the user don't have", function () {
+    /** @var \App\Models\Company */
+    $company = Company::factory()->create();
+    /** @var \App\Models\User */
+    $user = User::factory()->create();
+
+    $user->actions()->attach($company, [
+        'amount' => 1,
+    ]);
+
+    Sanctum::actingAs($user, guard:'web');
+
+    putJson(route('companies.sell_actions', ['company' => $company]), [
+        'amount' => 2,
+    ])
+        ->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
+
+    putJson(route('companies.sell_actions', ['company' => $company]), [
+        'amount' => 1,
+    ])
+        ->assertOk();
+});
+
 it('should be possible to buy the action after the sale', function () {
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
