@@ -41,15 +41,14 @@ it('should change the actions price after a certain time', function () {
 
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
-    $originalPrice = $company->price;
 
     getJson(route('companies.index'))->assertOk();
 
-    expect($company->fresh()->price)->toBe($originalPrice);
+    $originalPrice = $company->fresh()->price;
 
     testTime()->addSeconds(config('game.company.reset_after'));
 
     getJson(route('companies.index'))->assertOk();
 
     expect($company->fresh()->price)->not->toBe($originalPrice);
-})->skip('TODO');
+});
