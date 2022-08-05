@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 
-class AcceptLanguageMiddleware
+class AcceptLanguage
 {
     /**
      * Handle an incoming request.
