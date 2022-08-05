@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CompanyPurchased;
 use App\Http\Requests\BuyCompanyRequest;
 use App\Http\Requests\SellCompanyRequest;
 use App\Http\Resources\CompanyCollection;
@@ -89,6 +90,8 @@ class CompanyController extends Controller
             $company->buy_amount += $amount;
             $company->save();
         }
+
+        CompanyPurchased::dispatch();
 
         return response()->json('');
     }
