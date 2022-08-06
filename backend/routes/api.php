@@ -28,7 +28,7 @@ Route::get('users/@me', function () {
     $user->showPrivatesAttributes();
 
     return response()->json(new UserResource($user));
-})->middleware('auth')->name('me');
+})->middleware('auth:sanctum')->name('me');
 
 Route::controller(UsersController::class)
     ->name('users.')
@@ -61,6 +61,10 @@ Route::controller(CompanyController::class)
         // GET companies/
         Route::get('/', 'index')
             ->name('index');
+
+        // GET companies/update-in
+        Route::get('update-in', 'updateIn')
+            ->name('update_in');
 
         // POST companies/{company}
         Route::post('{company}', 'buyActions')

@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Events\CompanyPurchased;
+use App\Events\CompanySold;
 use App\Http\Requests\BuyCompanyRequest;
 use App\Http\Requests\SellCompanyRequest;
 use App\Http\Resources\CompanyCollection;
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\UserResource;
 use App\Models\Company;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class CompanyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only(
+        $this->middleware('auth:sanctum')->only(
             'myCompanies',
             'buyActions',
             'sellActions'
@@ -48,6 +52,23 @@ class CompanyController extends Controller
     }
 
     /**
+     * Displays when the next update of company prices will take place
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateIn()
+    {
+        /** @var \Illuminate\Support\Carbon */
+        $lastUpdate = Cache::get('updated-companies-at', now());
+        $nextUpdate = $lastUpdate->addSeconds(config('game.company.reset_after'));
+
+        return response()->json([
+            'next_update_in' => $nextUpdate->toISOString(true),
+            'seconds' => $nextUpdate->diffInSeconds(now()),
+        ]);
+    }
+
+    /**
      * Buy actions from a company.
      *
      * @param  \App\Http\Requests\BuyCompanyRequest  $request
@@ -56,7 +77,7 @@ class CompanyController extends Controller
      */
     public function buyActions(BuyCompanyRequest $request, Company $company)
     {
-        $availableActions = $company->max_actions - $company->investors->sum('pivot.amount');
+        $availableActions = $company->getAvailableActions();
         $amount = abs($request->validated('amount'));
 
         abort_if(
@@ -91,7 +112,10 @@ class CompanyController extends Controller
             $company->save();
         }
 
-        CompanyPurchased::dispatch();
+        CompanyPurchased::dispatch(
+            new CompanyResource($company),
+            new UserResource($user)
+        );
 
         return response()->json('');
     }
@@ -125,8 +149,17 @@ class CompanyController extends Controller
         $user->pivot->amount -= $amount;
         $user->push();
 
+        if ($user->pivot->amount <= 0) {
+            $company->investors()->detach($user);
+        }
+
         $company->sell_amount += $amount;
         $company->save();
+
+        CompanySold::dispatch(
+            new CompanyResource($company),
+            new UserResource($user)
+        );
 
         return response()->json('');
     }

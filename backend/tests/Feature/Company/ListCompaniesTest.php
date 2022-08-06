@@ -46,9 +46,19 @@ it('should change the actions price after a certain time', function () {
 
     $originalPrice = $company->fresh()->price;
 
-    testTime()->addSeconds(config('game.company.reset_after'));
+    testTime()->addSeconds(config('game.company.reset_after') + 1);
 
     getJson(route('companies.index'))->assertOk();
 
     expect($company->fresh()->price)->not->toBe($originalPrice);
+});
+
+it('should return the seconds left for the next price update', function () {
+    testTime()->freeze();
+
+    getJson(route('companies.update_in'))
+        ->assertOk()
+        ->assertJsonFragment([
+            'seconds' => config('game.company.reset_after'),
+        ]);
 });

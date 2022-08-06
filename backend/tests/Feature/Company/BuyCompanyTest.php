@@ -74,7 +74,6 @@ it('should increase the amount of purchases that the company had', function () {
     $company = Company::factory()->create();
     /** @var \App\Models\User */
     $user = User::factory()->create();
-    $originalAmount = $company->buy_amount;
 
     Sanctum::actingAs($user, guard:'web');
 
@@ -83,12 +82,12 @@ it('should increase the amount of purchases that the company had', function () {
     ])
         ->assertOk();
 
-    expect($company->fresh()->buy_amount)->toBe($originalAmount + 1);
+    expect($company->fresh()->buy_amount)->toBe(1);
 
     postJson(route('companies.buy_actions', ['company' => $company]), [
         'amount' => 1,
     ])
         ->assertOk();
 
-    expect($company->fresh()->buy_amount)->toBe($originalAmount + 2);
+    expect($company->fresh()->buy_amount)->toBe(2);
 });

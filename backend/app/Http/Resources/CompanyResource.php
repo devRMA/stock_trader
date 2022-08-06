@@ -25,10 +25,10 @@ class CompanyResource extends JsonResource
 
         $attrs->put(
             'actions_available',
-            $this->resource->max_actions - $this->resource->investors->sum('pivot.amount')
+            $this->resource->getAvailableActions()
         );
         if ($attrs->has('pivot')) {
-            $attrs->put('amount', $this->resource->pivot->amount);
+            $attrs->put('amount', (int) $this->resource->pivot->amount);
             $attrs->forget('pivot');
         }
 

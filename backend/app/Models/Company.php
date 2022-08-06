@@ -74,4 +74,14 @@ class Company extends Model
             ->withPivot('amount')
             ->withTimestamps();
     }
+
+    /**
+     * Get the number of actions available for this company.
+     *
+     * @return int
+     */
+    public function getAvailableActions(): int
+    {
+        return $this->max_actions - $this->investors->sum('pivot.amount');
+    }
 }

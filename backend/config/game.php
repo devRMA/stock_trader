@@ -2,6 +2,7 @@
 
 return [
     'company' => [
-        'reset_after' => 5 ** 60, // 5 minutes
+        'reset_after' => 5 * 60, // 5 minutes
+        'minimum_variation' => 10,
     ],
 ];

@@ -20,7 +20,12 @@ class UpdateCompanyPrice
      */
     public function handle(Request $request, Closure $next)
     {
-        Cache::remember('update-company-prices', config('game.company.reset_after'), function () {
+        if (! Cache::has('updated-companies-at')) {
+            Cache::put(
+                'updated-companies-at',
+                now(),
+                config('game.company.reset_after')
+            );
             Company::all()->each(function (Company $company) {
                 switch ($company->risk) {
                     case CompanyRisk::Low:
@@ -41,25 +46,24 @@ class UpdateCompanyPrice
                 if ($company->buy_amount > 0) {
                     $chanceLoss *= -$company->buy_amount / 100;
                 }
+
                 $price = $company->price;
+                $variation = config('game.company.minimum_variation') * ($chanceLoss / 100);
                 if (fake()->boolean($chanceLoss)) {
-                    $price -= $price * ($company->sell_amount / 100);
+                    $price -= ($price * ($company->sell_amount / 100)) + $variation;
                 } else {
-                    $price += $price * ($company->buy_amount / 100);
+                    $price += ($price * ($company->buy_amount / 100)) + $variation;
                 }
                 $company
-                    ->setAttribute('price', $price)
+                    ->setAttribute('price', (int) $price)
                     ->setAttribute('last_price_update', now())
                     ->setAttribute('sell_amount', 0)
                     ->setAttribute('buy_amount', 0)
                     ->save();
-            }
-            );
+            });
 
             CompaniesUpdated::dispatch();
-
-            return null;
-        });
+        }
 
         return $next($request);
     }

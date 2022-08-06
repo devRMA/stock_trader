@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Models\Company;
-use App\Models\User;
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -20,8 +20,8 @@ class CompanySold implements ShouldBroadcast
      * @return void
      */
     public function __construct(
-        public Company $company,
-        public User $user
+        public CompanyResource $company,
+        public UserResource $user
     ) {
     }
 

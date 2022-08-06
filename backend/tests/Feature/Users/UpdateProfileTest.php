@@ -11,7 +11,7 @@ it('should change the profile information of the logged in user', function () {
     /** @var \App\Models\User */
     $other = User::factory()->make();
 
-    Sanctum::actingAs($user);
+    Sanctum::actingAs($user, guard:'web');
 
     putJson(route('users.update', ['user' => $user]), [
         'name' => $other->name,
