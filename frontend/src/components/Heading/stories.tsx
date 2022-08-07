@@ -6,10 +6,10 @@ export default {
     title: 'Heading',
     component: Heading,
     args: {
-        text: 'Lorem Ipsum',
+        children: 'Lorem Ipsum',
     },
     argTypes: {
-        text: { type: 'string' },
+        children: { type: 'string' },
     },
 } as Meta;
 
