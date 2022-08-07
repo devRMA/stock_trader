@@ -17,6 +17,7 @@ module.exports = {
         'plugin:react/jsx-runtime',
         'plugin:react/recommended',
         'plugin:unicorn/recommended',
+        'plugin:storybook/recommended',
     ],
     settings: {
         react: {
@@ -31,10 +32,20 @@ module.exports = {
     rules: {
         'react/react-in-jsx-scope': 'off',
         'import/extensions': 'off',
-        'react/jsx-filename-extension': [2, { extensions: ['.tsx'] }],
+        'react/jsx-filename-extension': [
+            2,
+            {
+                extensions: ['.tsx'],
+            },
+        ],
         'unicorn/filename-case': [
             'error',
-            { cases: { camelCase: true, pascalCase: true } },
+            {
+                cases: {
+                    camelCase: true,
+                    pascalCase: true,
+                },
+            },
         ],
         'unicorn/prevent-abbreviations': 'off',
         'simple-import-sort/exports': 'error',
@@ -56,10 +67,17 @@ module.exports = {
         'require-atomic-updates': 'error',
         '@typescript-eslint/no-confusing-void-expression': [
             'error',
-            { ignoreArrowShorthand: true },
+            {
+                ignoreArrowShorthand: true,
+            },
         ],
         'import/no-deprecated': 'error',
-        'react/boolean-prop-naming': ['error', { validateNested: true }],
+        'react/boolean-prop-naming': [
+            'error',
+            {
+                validateNested: true,
+            },
+        ],
         'react/no-unstable-nested-components': 'error',
         'react/jsx-key': 'error',
         'react/jsx-no-bind': [
@@ -75,5 +93,7 @@ module.exports = {
         'react/jsx-no-constructed-context-values': 'error',
         'react/jsx-no-script-url': 'error',
         'react/jsx-no-useless-fragment': 'error',
+        'react/function-component-definition': 'off',
+        'import/no-extraneous-dependencies': 'off',
     },
 };

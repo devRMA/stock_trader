@@ -8,5 +8,4 @@ module.exports = {
         defaultLocale: 'en',
     },
     reloadOnPrerender: process.env.NODE_ENV === 'development',
-    localePath: path.resolve('./src/public/locales'),
 };
