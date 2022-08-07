@@ -1,7 +1,9 @@
 // https://github.com/vercel/swr/blob/c57be9b1266d859842b183dab941074bf38ce2ce/examples/axios-typescript/libs/useRequest.ts
 
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
+
+import api from './api';
 
 export type GetRequest = AxiosRequestConfig | null;
 
@@ -34,7 +36,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
     } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
         request && JSON.stringify(request),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        () => axios.request<Data>(request!),
+        () => api.request<Data>(request!),
         {
             ...config,
             fallbackData: fallbackData && {
