@@ -1,11 +1,11 @@
-import { Text } from '@chakra-ui/react';
+import { Heading as HeadingChakra } from '@chakra-ui/react';
 
 export type HeadingProps = {
-    text: string;
+    children: React.ReactNode | string;
 };
 
-function Heading({ text }: HeadingProps) {
-    return <Text>{text}</Text>;
+function Heading({ children }: HeadingProps) {
+    return <HeadingChakra>{children}</HeadingChakra>;
 }
 
 export default Heading;
