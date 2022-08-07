@@ -36,6 +36,7 @@ module.exports = {
             'error',
             { cases: { camelCase: true, pascalCase: true } },
         ],
+        'unicorn/prevent-abbreviations': 'off',
         'simple-import-sort/exports': 'error',
         'simple-import-sort/imports': 'error',
         'sort-imports': 'off',

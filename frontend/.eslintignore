@@ -1,5 +1,7 @@
 .eslintrc.js
 .prettierrc.js
+next-i18next.config.js
+next.config.js
 next-env.d.ts
 node_modules/
 .next/
