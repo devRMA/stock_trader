@@ -8530,6 +8530,11 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
+laravel-echo@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.13.1.tgz#fe7d0c997a38a6fb6eb36f147a57b23b4090cdd9"
+  integrity sha512-tvJtbE0ppEwlO/rcFyN1JCLunDUG5pIVFWORSCkzkGEcJQzB+Eevs9PpIvsMtkz2JTNbUPHU+5GSkSh1/TIr4A==
+
 lazy-universal-dotenv@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/lazy-universal-dotenv/-/lazy-universal-dotenv-3.0.1.tgz#a6c8938414bca426ab8c9463940da451a911db38"
@@ -10233,6 +10238,13 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+pusher-js@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/pusher-js/-/pusher-js-7.3.0.tgz#0d4334bc67fb16b599cff7a1464016dfbd6d5658"
+  integrity sha512-N7uFRZGK6PKFfKd8e1aKsQ81OrilATGNhIbj42xJKmK+3zhstGBCQ110ZiF2nIngPTEKxQQqf15SJsVnQfNuqQ==
+  dependencies:
+    tweetnacl "^1.0.3"
+
 qs@6.10.3:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
@@ -11912,6 +11924,11 @@ tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha512-JVa5ijo+j/sOoHGjw0sxw734b1LhBkQ3bvUGNdxnVXDCX81Yx7TFgnZygxrIIWn23hbfTaMYLwRmAxFyDuFmIw==
+
+tweetnacl@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
+  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
