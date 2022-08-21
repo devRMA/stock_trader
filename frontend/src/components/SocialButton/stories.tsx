@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react/types-6-0';
+import { Meta, StoryFn } from '@storybook/react/types-6-0';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 
 import SocialButton, { SocialButtonProps } from '.';
@@ -32,6 +32,6 @@ export default {
     },
 } as Meta;
 
-export const Template: Story<SocialButtonProps> = (args) => (
+export const Basic: StoryFn<SocialButtonProps> = (args) => (
     <SocialButton {...args} />
 );
