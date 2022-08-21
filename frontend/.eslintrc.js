@@ -51,6 +51,7 @@ module.exports = {
         'simple-import-sort/exports': 'error',
         'simple-import-sort/imports': 'error',
         'sort-imports': 'off',
+        'newline-before-return': 'error',
         'react/jsx-props-no-spreading': 'off',
         'capitalized-comments': 'error',
         'default-case-last': 'error',

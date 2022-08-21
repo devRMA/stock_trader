@@ -27,6 +27,7 @@ export function usePublicSocket<TPayload>(
 
             return () => echoChannel.stopListening(event);
         }
+
         return () => {};
     }, [channel, event]);
 }
