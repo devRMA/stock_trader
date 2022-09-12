@@ -1,19 +1,34 @@
-import { Button, ButtonProps, useColorMode } from '@chakra-ui/react';
-import { BsMoonStarsFill, BsSun } from 'react-icons/bs';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import {
+    ButtonProps,
+    chakra,
+    useColorMode,
+    useColorModeValue,
+} from '@chakra-ui/react';
 
 function DarkModeSwitch(props: ButtonProps) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Button
-            aria-label="Toggle Theme"
+        <chakra.button
+            bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+            rounded="full"
+            w={8}
+            h={8}
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+            transition="background 0.3s ease"
+            _hover={{
+                bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
+            }}
             onClick={toggleColorMode}
+            aria-label="Toggle Theme"
             _focus={{ boxShadow: 'none' }}
-            w="fit-content"
             {...props}
         >
-            {colorMode === 'light' ? <BsMoonStarsFill /> : <BsSun />}
-        </Button>
+            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+        </chakra.button>
     );
 }
 
