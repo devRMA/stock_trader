@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 
+import DarkModeSwitch from '../DarkModeSwitch';
 import SocialButton from '../SocialButton';
 
 function Footer() {
@@ -32,6 +33,7 @@ function Footer() {
                     >
                         <FaGithub />
                     </SocialButton>
+                    <DarkModeSwitch />
                 </Stack>
             </Container>
         </Box>
