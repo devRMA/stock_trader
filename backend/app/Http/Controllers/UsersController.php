@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SetUserAvatarRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
@@ -12,7 +13,12 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only('update', 'delete');
+        $this->middleware('auth:sanctum')
+            ->only(
+                'update',
+                'setAvatar',
+                'delete'
+            );
     }
 
     /**
@@ -59,6 +65,21 @@ class UsersController extends Controller
 
         return response()
             ->json(new UserResource($user->fresh()->showPrivatesAttributes()));
+    }
+
+    /**
+     * Updates the avatar of the logged user.
+     *
+     * @param  \App\Http\Requests\SetUserAvatarRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function setAvatar(SetUserAvatarRequest $request)
+    {
+        /** @var \App\Models\User */
+        $user = auth()->user();
+        $user->setAvatar($request->validated('avatar'));
+
+        return response()->json('');
     }
 
     /**

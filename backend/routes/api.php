@@ -21,19 +21,29 @@ Route::get('/', function () {
     return response()->json('Stock Trader API v2');
 });
 
-// GET users/@me
-Route::get('users/@me', function () {
-    /** @var \App\Models\User */
-    $user = auth()->user();
-    $user->showPrivatesAttributes();
-
-    return response()->json(new UserResource($user));
-})->middleware('auth:sanctum')->name('me');
-
 Route::controller(UsersController::class)
     ->name('users.')
     ->prefix('users')
     ->group(function () {
+        Route::name('me')
+            ->middleware('auth:sanctum')
+            ->prefix('@me')
+            ->group(function () {
+                // GET users/@me
+                Route::get('', function () {
+                    /** @var \App\Models\User */
+                    $user = auth()->user();
+                    $user->showPrivatesAttributes();
+
+                    return response()->json(new UserResource($user));
+                })
+                    ->name('index');
+
+                // POST users/@me/avatar
+                Route::post('avatar', 'setAvatar')
+                    ->name('index');
+            });
+
         // GET users/
         Route::get('/', 'index')
             ->name('index');
