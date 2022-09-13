@@ -12,7 +12,7 @@ it('should return only public fields from user account ', function () {
     getJson(route('users.show', ['user' => $user]))
         ->assertOk()
         ->assertJson(fn (AssertableJson $json) => $json
-                ->hasAll(['id', 'name', 'money', 'created_at'])
+                ->hasAll(['id', 'name', 'avatar', 'money', 'created_at'])
                 ->missingAll([
                     'email',
                     'updated_at',

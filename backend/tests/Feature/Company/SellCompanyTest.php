@@ -4,6 +4,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\putJson;
 
@@ -26,7 +27,6 @@ it('should increase the amount of sales the company has had', function () {
     $company = Company::factory()->create();
     /** @var \App\Models\User */
     $user = User::factory()->create();
-    $originalAmount = $company->sell_amount;
 
     $user->actions()->attach($company, [
         'amount' => 1,
@@ -39,10 +39,11 @@ it('should increase the amount of sales the company has had', function () {
     ])
         ->assertOk();
 
-    expect($company->fresh()->sell_amount)->toBe($originalAmount + 1);
+    expect($company->fresh()->sell_amount)->toBe(1);
 });
 
 it("should increase user's money after sale", function () {
+    getJson(route('companies.update_in'));
     /** @var \App\Models\Company */
     $company = Company::factory()->create();
     /** @var \App\Models\User */
