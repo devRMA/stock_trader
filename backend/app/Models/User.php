@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
 /**
  * @property string $name
@@ -23,9 +27,11 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, TwoFactorAuthenticatable;
+    // @see https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -60,7 +66,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'money' => 'integer',
+        'money'             => 'integer',
         'email_verified_at' => 'datetime',
     ];
 
@@ -105,12 +111,37 @@ class User extends Authenticatable
         return (int) $this->money;
     }
 
-    public function setMoney(int|float $money): self
+    public function setMoney(int | float $money): self
     {
         if ($money <= 0) {
             $money = 0;
         }
 
         return $this->setAttribute('money', (string) $money);
+    }
+
+    public function getAvatar(): ?SpatieMedia
+    {
+        return $this->getFirstMedia('avatar');
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        $avatarUrl = $this->getFirstMediaUrl('avatar');
+        $avatarUrl = $avatarUrl === '' ? null : $avatarUrl;
+        return $avatarUrl;
+    }
+
+    public function setAvatar(?UploadedFile $avatar): self
+    {
+        $this->clearMediaCollection('avatar');
+        if ($avatar !== null) {
+            $this
+                ->addMedia($avatar)
+                ->usingFileName('avatar.' . $avatar->clientExtension())
+                ->toMediaCollection('avatar');
+        }
+
+        return $this;
     }
 }
