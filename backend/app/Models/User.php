@@ -30,6 +30,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, TwoFactorAuthenticatable;
+
     // @see https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model
     use InteractsWithMedia;
 
@@ -66,7 +67,7 @@ class User extends Authenticatable implements HasMedia
      * @var array<string, string>
      */
     protected $casts = [
-        'money'             => 'integer',
+        'money' => 'integer',
         'email_verified_at' => 'datetime',
     ];
 
@@ -129,6 +130,7 @@ class User extends Authenticatable implements HasMedia
     {
         $avatarUrl = $this->getFirstMediaUrl('avatar');
         $avatarUrl = $avatarUrl === '' ? null : $avatarUrl;
+
         return $avatarUrl;
     }
 
@@ -138,7 +140,7 @@ class User extends Authenticatable implements HasMedia
         if ($avatar !== null) {
             $this
                 ->addMedia($avatar)
-                ->usingFileName('avatar.' . $avatar->clientExtension())
+                ->usingFileName('avatar.'.$avatar->clientExtension())
                 ->toMediaCollection('avatar');
         }
 
