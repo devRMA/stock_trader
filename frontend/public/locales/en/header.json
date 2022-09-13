@@ -1,0 +1,8 @@
+{
+    "toggle-navigation": "Toggle Navigation",
+    "salutation": "Hello, {{name}}!",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+}
