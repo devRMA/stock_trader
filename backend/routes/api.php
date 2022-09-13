@@ -25,8 +25,7 @@ Route::controller(UsersController::class)
     ->name('users.')
     ->prefix('users')
     ->group(function () {
-        Route::name('me')
-            ->middleware('auth:sanctum')
+        Route::name('me.')
             ->prefix('@me')
             ->group(function () {
                 // GET users/@me
@@ -37,11 +36,12 @@ Route::controller(UsersController::class)
 
                     return response()->json(new UserResource($user));
                 })
+                    ->middleware('auth:sanctum')
                     ->name('index');
 
                 // POST users/@me/avatar
                 Route::post('avatar', 'setAvatar')
-                    ->name('index');
+                    ->name('set_avatar');
             });
 
         // GET users/
