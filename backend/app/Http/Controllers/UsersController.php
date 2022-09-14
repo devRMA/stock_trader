@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,10 +16,9 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')
-            ->only(
-                'update',
-                'setAvatar',
-                'delete'
+            ->except(
+                'index',
+                'show',
             );
         $this->middleware('forbid-banned-user');
     }
@@ -108,5 +108,62 @@ class UsersController extends Controller
         $user->delete();
 
         return response()->noContent();
+    }
+
+    /**
+     * Ban a user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function ban(Request $request, User $user)
+    {
+        /** @var \App\Models\User */
+        $loggedUser = auth()->user();
+
+        abort_unless(
+            $loggedUser->admin,
+            Response::HTTP_NOT_FOUND,
+        );
+
+        abort_if(
+            $user->isBanned(),
+            Response::HTTP_CONFLICT,
+            'already banned'
+        );
+
+        $user->ban([
+            'comment' => $request->get('reason'),
+        ]);
+
+        return response()->json('');
+    }
+
+    /**
+     * Removes a user's ban.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function unban(User $user)
+    {
+        /** @var \App\Models\User */
+        $loggedUser = auth()->user();
+
+        abort_unless(
+            $loggedUser->admin,
+            Response::HTTP_NOT_FOUND,
+        );
+
+        abort_if(
+            ! $user->isBanned(),
+            Response::HTTP_CONFLICT,
+            'already unbanned'
+        );
+
+        $user->unban();
+
+        return response()->json('');
     }
 }

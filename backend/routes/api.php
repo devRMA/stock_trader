@@ -62,6 +62,20 @@ Route::controller(UsersController::class)
         Route::delete('{user}', 'destroy')
             ->where('user', '[0-9]+')
             ->name('destroy');
+
+        Route::name('bans.')
+            ->prefix('bans')
+            ->group(function () {
+                // POST users/bans/{user}
+                Route::post('{user}', 'ban')
+                    ->where('user', '[0-9]+')
+                    ->name('add');
+
+                // DELETE ers/bans/{user}
+                Route::delete('{user}', 'unban')
+                    ->where('user', '[0-9]+')
+                    ->name('remove');
+            });
     });
 
 Route::controller(CompanyController::class)

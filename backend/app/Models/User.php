@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
 /**
+ * @property bool $admin
  * @property string $name
  * @property string $email
  * @property string $password
