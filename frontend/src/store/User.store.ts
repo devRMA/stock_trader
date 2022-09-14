@@ -1,8 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface User {
+    id: number;
     name: string;
+    email: string;
+    money: number;
     avatar?: string;
+    two_factor: boolean;
+    created_at: string;
+    banned: boolean;
+    bans: Array<{
+        reason: string;
+        created_at: string;
+    }>;
 }
 
 export interface UserState {
@@ -13,8 +23,15 @@ export interface UserState {
 
 const initialState: UserState = {
     user: {
+        id: 0,
         name: 'devRMA',
+        email: 'example@devrma.com',
+        money: 1000,
         avatar: 'https://github.com/devRMA.png',
+        two_factor: true,
+        created_at: '2022-09-14',
+        banned: false,
+        bans: [],
     },
     logged: false,
     loading: false,
