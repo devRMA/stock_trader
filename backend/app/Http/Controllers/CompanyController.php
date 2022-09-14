@@ -22,6 +22,7 @@ class CompanyController extends Controller
             'buyActions',
             'sellActions'
         );
+        $this->middleware('forbid-banned-user');
     }
 
     /**

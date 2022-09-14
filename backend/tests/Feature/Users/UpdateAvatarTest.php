@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\User;
-use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\postJson;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\postJson;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {

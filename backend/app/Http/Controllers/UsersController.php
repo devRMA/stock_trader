@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
 class UsersController extends Controller
@@ -19,6 +20,7 @@ class UsersController extends Controller
                 'setAvatar',
                 'delete'
             );
+        $this->middleware('forbid-banned-user');
     }
 
     /**
@@ -33,7 +35,9 @@ class UsersController extends Controller
                 Cache::remember(
                     'users'.request()->get('page', 1),
                     120,
-                    fn () => User::orderBy('money', 'desc')->fastPaginate(10)
+                    fn () => User::withoutBanned()
+                        ->orderBy('money', 'desc')
+                        ->fastPaginate(10)
                 )
             ));
     }
@@ -46,6 +50,11 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
+        abort_if(
+            $user->isBanned(),
+            Response::HTTP_NOT_FOUND
+        );
+
         return response()
             ->json(new UserResource($user));
     }

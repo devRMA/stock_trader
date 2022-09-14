@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,17 +24,21 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
  * @property string|null $two_factor_confirmed_at
  * @property \App\Models\CompanyUser $pivot
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $actions
+ * @property \Illuminate\Database\Eloquent\Collection<int, \Cog\Laravel\Ban\Models\Ban> $bans
  * @property string $money
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  */
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, BannableContract
 {
     use HasApiTokens, HasFactory, TwoFactorAuthenticatable;
 
     // @see https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model
     use InteractsWithMedia;
+
+    // @see https://github.com/cybercog/laravel-ban
+    use Bannable;
 
     /**
      * The attributes that are mass assignable.
@@ -40,10 +46,10 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
-        'password',
         'money',
+        'name',
+        'password',
     ];
 
     /**
@@ -52,13 +58,15 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $hidden = [
+        'admin',
+        'email_verified_at',
         'password',
         'remember_token',
-        'email_verified_at',
-        'updated_at',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
         'two_factor_confirmed_at',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'updated_at',
+        'banned_at',
     ];
 
     /**
@@ -67,8 +75,8 @@ class User extends Authenticatable implements HasMedia
      * @var array<string, string>
      */
     protected $casts = [
-        'money' => 'integer',
         'email_verified_at' => 'datetime',
+        'money' => 'integer',
     ];
 
     protected $showPrivatesAttribute = false;

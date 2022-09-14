@@ -30,6 +30,8 @@ class UserResource extends JsonResource
 
         if ($this->resource->getShowPrivatesAttribute()) {
             $attrs->put('two_factor', $this->resource->hasEnabledTwoFactorAuthentication());
+            $attrs->put('banned', $this->resource->isBanned());
+            $attrs->put('bans', BanResource::collection($this->resource->bans));
         } else {
             $attrs->forget([
                 'email',
