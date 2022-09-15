@@ -8,11 +8,21 @@ use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
 {
+    /**
+     * Redirect the user to github oauth url.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function githubProvider()
     {
         return Socialite::driver('github')->redirect();
     }
 
+    /**
+     * The callback that will be called, after oauth2.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function githubCallback()
     {
         try {
@@ -36,11 +46,21 @@ class OAuthController extends Controller
         return redirect()->away(config('urls.frontend.url'));
     }
 
+    /**
+     * Redirect the user to discord oauth url.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function discordProvider()
     {
         return Socialite::driver('discord')->redirect();
     }
 
+    /**
+     * The callback that will be called, after oauth2.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function discordCallback()
     {
         try {
