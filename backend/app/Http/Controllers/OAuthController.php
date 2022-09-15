@@ -47,6 +47,44 @@ class OAuthController extends Controller
     }
 
     /**
+     * Redirect the user to google oauth url.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function googleProvider()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * The callback that will be called, after oauth2.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function googleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (InvalidArgumentException) {
+            return redirect()->away(config('urls.frontend.login'));
+        }
+
+        /** @var \App\Models\User */
+        $user = User::updateOrCreate([
+            'email' => $googleUser->getEmail(),
+        ], [
+            'name' => $googleUser->getName(),
+            'email_verified_at' => now(),
+        ]);
+
+        $user->setAvatarFromUrl($googleUser->getAvatar());
+
+        auth()->login($user);
+
+        return redirect()->away(config('urls.frontend.url'));
+    }
+
+    /**
      * Redirect the user to discord oauth url.
      *
      * @return \Illuminate\Http\RedirectResponse

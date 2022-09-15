@@ -49,6 +49,18 @@ Route::controller(OAuthController::class)
                 Route::get('callback', 'discordCallback')
                     ->name('callback');
             });
+
+        Route::name('google.')
+            ->prefix('google')
+            ->group(function () {
+                // GET auth/google
+                Route::get('', 'googleProvider')
+                    ->name('provider');
+
+                // GET auth/google/callback
+                Route::get('callback', 'googleCallback')
+                    ->name('callback');
+            });
     });
 
 Route::controller(UsersController::class)
