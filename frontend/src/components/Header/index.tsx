@@ -220,12 +220,12 @@ function Header() {
                                 }}
                                 fontSize="sm"
                                 fontWeight={600}
-                                color="white"
-                                bg="pink.400"
+                                colorScheme="orange"
+                                bg="orange.400"
                                 href="#register"
                                 _hover={{
                                     textDecoration: 'none',
-                                    bg: 'pink.300',
+                                    bg: 'orange.500',
                                 }}
                             >
                                 {t('register')}
