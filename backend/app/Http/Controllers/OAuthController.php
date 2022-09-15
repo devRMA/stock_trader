@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
+use GuzzleHttp\Exception\ClientException;
 use InvalidArgumentException;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -28,22 +30,35 @@ class OAuthController extends Controller
         try {
             $githubUser = Socialite::driver('github')->user();
         } catch (InvalidArgumentException) {
-            return redirect()->away(config('urls.frontend.login'));
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 1,
+            ]);
+        } catch (ClientException) {
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 2,
+            ]);
+        } catch (Exception) {
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 3,
+            ]);
         }
 
-        /** @var \App\Models\User */
-        $user = User::updateOrCreate([
-            'email' => $githubUser->getEmail(),
-        ], [
-            'name' => $githubUser->getNickname(),
-            'email_verified_at' => now(),
-        ]);
+        /** @var \App\Models\User|null */
+        $user = User::firstWhere('email', $githubUser->getEmail());
 
-        $user->setAvatarFromUrl($githubUser->getAvatar());
+        if ($user === null) {
+            /** @var \App\Models\User */
+            $user = User::create([
+                'name'              => $githubUser->getNickname(),
+                'email'             => $githubUser->getEmail(),
+                'email_verified_at' => now(),
+            ]);
+            $user->setAvatarFromUrl($githubUser->getAvatar());
+        }
 
         auth()->login($user);
 
-        return redirect()->away(config('urls.frontend.url'));
+        return $this->redirectWith(config('urls.frontend.url'));
     }
 
     /**
@@ -66,22 +81,35 @@ class OAuthController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
         } catch (InvalidArgumentException) {
-            return redirect()->away(config('urls.frontend.login'));
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 1,
+            ]);
+        } catch (ClientException) {
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 2,
+            ]);
+        } catch (Exception) {
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 3,
+            ]);
         }
 
-        /** @var \App\Models\User */
-        $user = User::updateOrCreate([
-            'email' => $googleUser->getEmail(),
-        ], [
-            'name' => $googleUser->getName(),
-            'email_verified_at' => now(),
-        ]);
+        /** @var \App\Models\User|null */
+        $user = User::firstWhere('email', $googleUser->getEmail());
 
-        $user->setAvatarFromUrl($googleUser->getAvatar());
+        if ($user === null) {
+            /** @var \App\Models\User */
+            $user = User::create([
+                'name'              => head(explode(' ', $googleUser->getName())),
+                'email'             => $googleUser->getEmail(),
+                'email_verified_at' => now(),
+            ]);
+            $user->setAvatarFromUrl($googleUser->getAvatar());
+        }
 
         auth()->login($user);
 
-        return redirect()->away(config('urls.frontend.url'));
+        return $this->redirectWith(config('urls.frontend.url'));
     }
 
     /**
@@ -104,21 +132,47 @@ class OAuthController extends Controller
         try {
             $discordUser = Socialite::driver('discord')->user();
         } catch (InvalidArgumentException) {
-            return redirect()->away(config('urls.frontend.login'));
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 1,
+            ]);
+        } catch (ClientException) {
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 2,
+            ]);
+        } catch (Exception) {
+            return $this->redirectWith(config('urls.frontend.login'), [
+                'code' => 3,
+            ]);
         }
 
-        /** @var \App\Models\User */
-        $user = User::updateOrCreate([
-            'email' => $discordUser->getEmail(),
-        ], [
-            'name' => $discordUser->getName(),
-            'email_verified_at' => now(),
-        ]);
+        /** @var \App\Models\User|null */
+        $user = User::firstWhere('email', $discordUser->getEmail());
 
-        $user->setAvatarFromUrl($discordUser->getAvatar());
+        if ($user === null) {
+            /** @var \App\Models\User */
+            $user = User::create([
+                'name'              => $discordUser->getName(),
+                'email'             => $discordUser->getEmail(),
+                'email_verified_at' => now(),
+            ]);
+            $user->setAvatarFromUrl($discordUser->getAvatar());
+        }
 
         auth()->login($user);
 
-        return redirect()->away(config('urls.frontend.url'));
+        return $this->redirectWith(config('urls.frontend.url'));
+    }
+
+    /**
+     * Redirect to url with data in query parameters
+     *
+     * @param string $to
+     * @param array<string, mixed> $bag
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function redirectWith(string $to, array $bag = [])
+    {
+        $url = count($bag) > 0 ? ($to . '?' . http_build_query($bag)) : $to;
+        return redirect()->away($url);
     }
 }
