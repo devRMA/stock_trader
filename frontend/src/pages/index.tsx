@@ -76,6 +76,7 @@ function Index() {
                 </Flex>
                 <Flex flex={1}>
                     <Lottie
+                        isClickToPauseDisabled
                         options={{
                             loop: true,
                             autoplay: true,
