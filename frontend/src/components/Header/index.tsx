@@ -20,6 +20,7 @@ import {
     useColorModeValue,
     useDisclosure,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { useAppSelector } from 'store';
 
@@ -47,19 +48,21 @@ function DesktopNav() {
         <Stack direction="row" spacing={4}>
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label}>
-                    <Link
-                        p={2}
-                        href={navItem.href}
-                        fontSize="sm"
-                        fontWeight={500}
-                        color={linkColor}
-                        _hover={{
-                            textDecoration: 'none',
-                            color: linkHoverColor,
-                        }}
-                    >
-                        {navItem.label}
-                    </Link>
+                    <NextLink href={navItem.href} passHref>
+                        <Link
+                            p={2}
+                            href={navItem.href}
+                            fontSize="sm"
+                            fontWeight={500}
+                            color={linkColor}
+                            _hover={{
+                                textDecoration: 'none',
+                                color: linkHoverColor,
+                            }}
+                        >
+                            {navItem.label}
+                        </Link>
+                    </NextLink>
                 </Box>
             ))}
         </Stack>
@@ -78,19 +81,21 @@ function MobileNav() {
         >
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label}>
-                    <Link
-                        p={2}
-                        href={navItem.href}
-                        fontSize="sm"
-                        fontWeight={500}
-                        color={linkColor}
-                        _hover={{
-                            textDecoration: 'none',
-                            color: linkHoverColor,
-                        }}
-                    >
-                        {navItem.label}
-                    </Link>
+                    <NextLink href={navItem.href} passHref>
+                        <Link
+                            p={2}
+                            href={navItem.href}
+                            fontSize="sm"
+                            fontWeight={500}
+                            color={linkColor}
+                            _hover={{
+                                textDecoration: 'none',
+                                color: linkHoverColor,
+                            }}
+                        >
+                            {navItem.label}
+                        </Link>
+                    </NextLink>
                 </Box>
             ))}
         </Stack>
@@ -182,54 +187,58 @@ function Header() {
                                 <MenuGroup
                                     title={t('salutation', { name: user.name })}
                                 >
-                                    <MenuItem
-                                        as={Link}
-                                        href="#settings"
-                                        _hover={{ textDecoration: 'none' }}
-                                    >
-                                        {t('settings')}
-                                    </MenuItem>
+                                    <NextLink href="#settings" passHref>
+                                        <MenuItem
+                                            as={Link}
+                                            _hover={{ textDecoration: 'none' }}
+                                        >
+                                            {t('settings')}
+                                        </MenuItem>
+                                    </NextLink>
                                 </MenuGroup>
                                 <MenuDivider />
-                                <MenuItem
-                                    as={Link}
-                                    href="#logout"
-                                    _hover={{ textDecoration: 'none' }}
-                                >
-                                    {t('logout')}
-                                </MenuItem>
+                                <NextLink href="#logout" passHref>
+                                    <MenuItem
+                                        as={Link}
+                                        _hover={{ textDecoration: 'none' }}
+                                    >
+                                        {t('logout')}
+                                    </MenuItem>
+                                </NextLink>
                             </MenuList>
                         </Menu>
                     ) : (
                         <>
-                            <Button
-                                as={Link}
-                                fontSize="sm"
-                                fontWeight={400}
-                                variant="link"
-                                href="#login"
-                                _hover={{ textDecoration: 'none' }}
-                            >
-                                {t('login')}
-                            </Button>
-                            <Button
-                                as={Link}
-                                display={{
-                                    base: 'none',
-                                    md: 'inline-flex',
-                                }}
-                                fontSize="sm"
-                                fontWeight={600}
-                                colorScheme="orange"
-                                bg="orange.400"
-                                href="#register"
-                                _hover={{
-                                    textDecoration: 'none',
-                                    bg: 'orange.500',
-                                }}
-                            >
-                                {t('register')}
-                            </Button>
+                            <NextLink href="/login" passHref>
+                                <Button
+                                    as={Link}
+                                    fontSize="sm"
+                                    fontWeight={400}
+                                    variant="link"
+                                    _hover={{ textDecoration: 'none' }}
+                                >
+                                    {t('login')}
+                                </Button>
+                            </NextLink>
+                            <NextLink href="#register" passHref>
+                                <Button
+                                    as={Link}
+                                    display={{
+                                        base: 'none',
+                                        md: 'inline-flex',
+                                    }}
+                                    fontSize="sm"
+                                    fontWeight={600}
+                                    colorScheme="orange"
+                                    bg="orange.400"
+                                    _hover={{
+                                        textDecoration: 'none',
+                                        bg: 'orange.500',
+                                    }}
+                                >
+                                    {t('register')}
+                                </Button>
+                            </NextLink>
                         </>
                     )}
                 </Stack>
