@@ -1,0 +1,12 @@
+{
+    "sign-in": "Sign in to your account",
+    "new-here": "New here? ",
+    "create-account": "Create an account",
+    "tooltip-github": "Sign in using Github",
+    "tooltip-discord": "Sign in using Discord",
+    "tooltip-google": "Sign in using Google",
+    "email": "Email address",
+    "password": "Password",
+    "remember": "Remember me",
+    "sign-in-btn": "Sign in"
+}

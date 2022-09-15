@@ -1,3 +1,4 @@
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
@@ -9,17 +10,26 @@ import {
     Heading,
     Icon,
     Input,
+    InputGroup,
+    InputRightElement,
     Link,
     Stack,
     Text,
+    Tooltip,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { GetStaticPropsContext } from 'next';
 import NextLink from 'next/link';
-import { FaDiscord, FaGithub } from 'react-icons/fa';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useState } from 'react';
+import { FaDiscord, FaGithub, FaGoogle } from 'react-icons/fa';
 import { apiUrl } from 'services/api';
 
 function Login() {
-    // TODO : i18n
+    const { t } = useTranslation('login');
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <Flex
             minH="100vh"
@@ -29,12 +39,12 @@ function Login() {
         >
             <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
                 <Stack align="center">
-                    <Heading fontSize="4xl">Log in</Heading>
+                    <Heading fontSize="4xl">{t('sign-in')}</Heading>
                     <Text fontSize="lg" color="gray.600">
-                        New here?{' '}
+                        {t('new-here')}
                         <NextLink href="/register" passHref>
                             <Link href="/register" color="orange.400">
-                                Create an account
+                                {t('create-account')}
                             </Link>
                         </NextLink>
                     </Text>
@@ -47,12 +57,30 @@ function Login() {
                 >
                     <Stack spacing={4}>
                         <Flex justify="center" gap="6">
-                            <Button as={Link} href={`${apiUrl}/auth/github`}>
-                                <Icon as={FaGithub} w={6} h={6} />
-                            </Button>
-                            <Button as={Link} href={`${apiUrl}/auth/discord`}>
-                                <Icon as={FaDiscord} w={6} h={6} />
-                            </Button>
+                            <Tooltip label={t('tooltip-github')}>
+                                <Button
+                                    as={Link}
+                                    href={`${apiUrl}/auth/github`}
+                                >
+                                    <Icon as={FaGithub} w={6} h={6} />
+                                </Button>
+                            </Tooltip>
+                            <Tooltip label={t('tooltip-discord')}>
+                                <Button
+                                    as={Link}
+                                    href={`${apiUrl}/auth/discord`}
+                                >
+                                    <Icon as={FaDiscord} w={6} h={6} />
+                                </Button>
+                            </Tooltip>
+                            <Tooltip label={t('tooltip-google')}>
+                                <Button
+                                    as={Link}
+                                    href={`${apiUrl}/auth/google`}
+                                >
+                                    <Icon as={FaGoogle} w={6} h={6} />
+                                </Button>
+                            </Tooltip>
                         </Flex>
                         <Flex align="center">
                             <Divider />
@@ -60,12 +88,30 @@ function Login() {
                             <Divider />
                         </Flex>
                         <FormControl id="email">
-                            <FormLabel>Email address</FormLabel>
+                            <FormLabel>{t('email')}</FormLabel>
                             <Input type="email" />
                         </FormControl>
                         <FormControl id="password">
-                            <FormLabel>Password</FormLabel>
-                            <Input type="password" />
+                            <FormLabel>{t('password')}</FormLabel>
+                            <InputGroup>
+                                <Input
+                                    type={showPassword ? 'text' : 'password'}
+                                />
+                                <InputRightElement h="full">
+                                    <Button
+                                        variant="ghost"
+                                        onClick={() =>
+                                            setShowPassword((s) => !s)
+                                        }
+                                    >
+                                        {showPassword ? (
+                                            <ViewIcon />
+                                        ) : (
+                                            <ViewOffIcon />
+                                        )}
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
                         </FormControl>
                         <Stack spacing={10}>
                             <Stack
@@ -73,12 +119,9 @@ function Login() {
                                 align="start"
                                 justify="space-between"
                             >
-                                <Checkbox>Remember me</Checkbox>
-                                <NextLink href="#forgot" passHref>
-                                    <Link color="orange.400" href="#forgot">
-                                        Forgot password?
-                                    </Link>
-                                </NextLink>
+                                <Checkbox defaultChecked>
+                                    {t('remember')}
+                                </Checkbox>
                             </Stack>
                             <Button
                                 bg="orange.400"
@@ -87,7 +130,7 @@ function Login() {
                                     bg: 'orange.500',
                                 }}
                             >
-                                Sign in
+                                {t('sign-in-btn')}
                             </Button>
                         </Stack>
                     </Stack>
@@ -95,6 +138,14 @@ function Login() {
             </Stack>
         </Flex>
     );
+}
+
+export async function getStaticProps({ locale }: GetStaticPropsContext) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? 'pt', ['login'])),
+        },
+    };
 }
 
 export default Login;
