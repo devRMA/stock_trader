@@ -21,7 +21,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 import { useTranslation } from 'next-i18next';
-import { useAppDispatch, useAppSelector } from 'store';
+import { useAppSelector } from 'store';
 
 interface NavItem {
     label: string;
