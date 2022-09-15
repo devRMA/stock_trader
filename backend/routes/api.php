@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,35 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return response()->json('Stock Trader API v2');
 });
+
+Route::controller(OAuthController::class)
+    ->name('oauth.')
+    ->prefix('auth')
+    ->group(function () {
+        Route::name('github.')
+            ->prefix('github')
+            ->group(function () {
+                // GET auth/github
+                Route::get('', 'githubProvider')
+                    ->name('provider');
+
+                // GET auth/github/callback
+                Route::get('callback', 'githubCallback')
+                    ->name('callback');
+            });
+
+        Route::name('discord.')
+            ->prefix('discord')
+            ->group(function () {
+                // GET auth/discord
+                Route::get('', 'discordProvider')
+                    ->name('provider');
+
+                // GET auth/discord/callback
+                Route::get('callback', 'discordCallback')
+                    ->name('callback');
+            });
+    });
 
 Route::controller(UsersController::class)
     ->name('users.')

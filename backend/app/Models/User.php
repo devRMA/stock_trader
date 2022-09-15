@@ -51,6 +51,7 @@ class User extends Authenticatable implements HasMedia, BannableContract
         'money',
         'name',
         'password',
+        'email_verified_at',
     ];
 
     /**
@@ -150,6 +151,18 @@ class User extends Authenticatable implements HasMedia, BannableContract
             $this
                 ->addMedia($avatar)
                 ->usingFileName('avatar.'.$avatar->clientExtension())
+                ->toMediaCollection('avatar');
+        }
+
+        return $this;
+    }
+
+    public function setAvatarFromUrl(?string $url): self
+    {
+        $this->clearMediaCollection('avatar');
+        if ($url !== null && $url !== '') {
+            $this
+                ->addMediaFromUrl($url)
                 ->toMediaCollection('avatar');
         }
 
