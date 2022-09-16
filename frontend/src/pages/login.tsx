@@ -17,18 +17,67 @@ import {
     Text,
     Tooltip,
     useColorModeValue,
+    useToast,
 } from '@chakra-ui/react';
 import { GetStaticPropsContext } from 'next';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useState } from 'react';
 import { FaDiscord, FaGithub, FaGoogle } from 'react-icons/fa';
+import { useEffectOnce, useSearchParam } from 'react-use';
 import { apiUrl } from 'services/api';
 
 function Login() {
     const { t } = useTranslation('login');
+    const errorCode = useSearchParam('code');
+    const router = useRouter();
+    const toast = useToast();
     const [showPassword, setShowPassword] = useState(false);
+
+    useEffectOnce(() => {
+        if (errorCode) {
+            switch (errorCode) {
+                case '1': {
+                    toast({
+                        title: t('toast-error-title'),
+                        description: t('toast-error-code-1'),
+                        status: 'error',
+                        duration: 20_000,
+                        position: 'bottom-left',
+                        isClosable: true,
+                    });
+                    break;
+                }
+                case '2': {
+                    toast({
+                        title: t('toast-error-title'),
+                        description: t('toast-error-code-2'),
+                        status: 'error',
+                        duration: 20_000,
+                        position: 'bottom-left',
+                        isClosable: true,
+                    });
+                    break;
+                }
+                case '3': {
+                    toast({
+                        title: t('toast-error-title'),
+                        description: t('toast-error-code-3'),
+                        status: 'error',
+                        duration: 20_000,
+                        position: 'bottom-left',
+                        isClosable: true,
+                    });
+                    break;
+                }
+
+                // no default
+            }
+            router.push(router.pathname);
+        }
+    });
 
     return (
         <Flex
