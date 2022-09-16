@@ -1,16 +1,28 @@
 import {
     Box,
     Container,
+    Select,
     Stack,
     Text,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { ChangeEvent } from 'react';
 import { FaGithub } from 'react-icons/fa';
 
 import DarkModeSwitch from '../DarkModeSwitch';
 import SocialButton from '../SocialButton';
 
 function Footer() {
+    const router = useRouter();
+
+    const handleChangeLanguage = (event: ChangeEvent<HTMLSelectElement>) => {
+        router.push(router.pathname, router.asPath, {
+            locale: event.target.value,
+            scroll: false,
+        });
+    };
+
     return (
         <Box
             bg={useColorModeValue('gray.50', 'gray.900')}
@@ -26,7 +38,7 @@ function Footer() {
                 align={{ base: 'center', md: 'center' }}
             >
                 <Text>© 2022 devRMA. All rights reserved</Text>
-                <Stack direction="row" spacing={6}>
+                <Stack direction="row" spacing={4}>
                     <SocialButton
                         label="Github"
                         href="https://github.com/devRMA/stock_trader"
@@ -34,6 +46,20 @@ function Footer() {
                         <FaGithub />
                     </SocialButton>
                     <DarkModeSwitch />
+                </Stack>
+                <Stack>
+                    <Select
+                        variant="filled"
+                        size={{
+                            base: 'md',
+                            md: 'sm',
+                        }}
+                        onChange={handleChangeLanguage}
+                        defaultValue={router.locale}
+                    >
+                        <option value="en">English</option>
+                        <option value="pt">Português</option>
+                    </Select>
                 </Stack>
             </Container>
         </Box>
