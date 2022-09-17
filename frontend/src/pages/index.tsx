@@ -7,10 +7,10 @@ import {
     Text,
     useBreakpointValue,
 } from '@chakra-ui/react';
+import Lottie from 'lottie-react';
 import { GetStaticPropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Lottie from 'react-lottie';
 
 import illustrationData from '../assets/lotties/analyze-illustration.json';
 import Footer from '../components/Footer';
@@ -75,14 +75,7 @@ function Index() {
                     </Stack>
                 </Flex>
                 <Flex flex={1}>
-                    <Lottie
-                        isClickToPauseDisabled
-                        options={{
-                            loop: true,
-                            autoplay: true,
-                            animationData: illustrationData,
-                        }}
-                    />
+                    <Lottie animationData={illustrationData} loop autoPlay />
                 </Flex>
             </Stack>
             <Footer />
