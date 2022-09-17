@@ -1,7 +1,7 @@
 import { act, screen } from '@testing-library/react';
+import { renderWithTheme } from 'utils/testUtils';
 import { describe, expect, it } from 'vitest';
 
-import { renderWithTheme } from '../../utils/testUtils';
 import DarkModeSwitch from '.';
 
 describe('<DarkModeSwitch />', () => {

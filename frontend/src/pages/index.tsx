@@ -7,14 +7,13 @@ import {
     Text,
     useBreakpointValue,
 } from '@chakra-ui/react';
+import illustrationData from 'assets/lotties/analyze-illustration.json';
+import Footer from 'components/Footer';
+import Header from 'components/Header';
 import Lottie from 'lottie-react';
 import { GetStaticPropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
-import illustrationData from '../assets/lotties/analyze-illustration.json';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
 
 function Index() {
     const { t } = useTranslation('hero');

@@ -23,9 +23,8 @@ import {
 import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { useEffectOnce } from 'react-use';
-import { useAppDispatch, useAppSelector } from 'store';
-
-import { loadUser, logoutUser } from '../../store/User.store';
+import { selectUser, useAppDispatch, useAppSelector } from 'store/hooks';
+import { loadUser, logoutUser } from 'store/User.store';
 
 interface NavItem {
     label: string;
@@ -108,11 +107,13 @@ function MobileNav() {
 function Header() {
     const { t } = useTranslation('header');
     const { isOpen, onToggle } = useDisclosure();
-    const { user, logged, loading } = useAppSelector((state) => state.user);
+    const { user, logged, loading } = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
 
     useEffectOnce(() => {
-        dispatch(loadUser());
+        if (!logged) {
+            dispatch(loadUser());
+        }
     });
 
     return (
