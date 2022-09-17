@@ -25,7 +25,7 @@ import { useTranslation } from 'next-i18next';
 import { useEffectOnce } from 'react-use';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import { loadUser } from '../../store/User.store';
+import { loadUser, logoutUser } from '../../store/User.store';
 
 interface NavItem {
     label: string;
@@ -205,14 +205,11 @@ function Header() {
                                     </NextLink>
                                 </MenuGroup>
                                 <MenuDivider />
-                                <NextLink href="#logout" passHref>
-                                    <MenuItem
-                                        as={Link}
-                                        _hover={{ textDecoration: 'none' }}
-                                    >
-                                        {t('logout')}
-                                    </MenuItem>
-                                </NextLink>
+                                <MenuItem
+                                    onClick={() => dispatch(logoutUser())}
+                                >
+                                    {t('logout')}
+                                </MenuItem>
                             </MenuList>
                         </Menu>
                     ) : (

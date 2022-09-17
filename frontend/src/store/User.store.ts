@@ -46,6 +46,11 @@ export const loadUser = createAsyncThunk('user/loadUser', async () => {
     return resp.data;
 });
 
+export const logoutUser = createAsyncThunk('user/logout', async () => {
+    await api.get('/sanctum/csrf-cookie');
+    await api.post('/logout');
+});
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -53,15 +58,31 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(loadUser.pending, (state) => {
             state.loading = true;
-            state.logged = false;
-        });
-        builder.addCase(loadUser.fulfilled, (state, action) => {
-            state.loading = false;
             state.logged = true;
         });
-        builder.addCase(loadUser.rejected, (state, action) => {
+        builder.addCase(loadUser.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.logged = true;
+            state.user = payload;
+        });
+        builder.addCase(loadUser.rejected, (state) => {
             state.loading = false;
             state.logged = false;
+            state.user = initialState.user;
+        });
+        builder.addCase(logoutUser.pending, (state) => {
+            state.loading = true;
+            state.logged = false;
+        });
+        builder.addCase(logoutUser.fulfilled, (state) => {
+            state.loading = false;
+            state.logged = false;
+            state.user = initialState.user;
+        });
+        builder.addCase(logoutUser.rejected, (state) => {
+            state.loading = false;
+            state.logged = false;
+            state.user = initialState.user;
         });
     },
 });
