@@ -6,6 +6,7 @@ import {
     Divider,
     Flex,
     FormControl,
+    FormErrorMessage,
     FormLabel,
     Heading,
     Icon,
@@ -19,15 +20,23 @@ import {
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react';
+import axios, { AxiosError } from 'axios';
 import { GetStaticPropsContext } from 'next';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { FaDiscord, FaGithub, FaGoogle } from 'react-icons/fa';
 import { useEffectOnce, useSearchParam } from 'react-use';
-import { apiUrl } from 'services/api';
+import api, { apiUrl } from 'services/api';
+
+interface FormInputs {
+    email: string;
+    password: string;
+    remember: boolean;
+}
 
 function Login() {
     const { t } = useTranslation('login');
@@ -35,6 +44,66 @@ function Login() {
     const router = useRouter();
     const toast = useToast();
     const [showPassword, setShowPassword] = useState(false);
+    const {
+        control,
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<FormInputs>({
+        defaultValues: {
+            remember: true,
+        },
+    });
+
+    const onSubmit = handleSubmit(async (data) => {
+        const { email, password, remember } = data;
+        await api.get('/sanctum/csrf-cookie');
+        try {
+            const resp = await api.post<{
+                two_factor: boolean;
+            }>('/login', {
+                email,
+                password,
+                remember,
+            });
+            if (resp.data.two_factor) {
+                // TODO : push to 2FA challenge after login
+                router.push('/', undefined, {
+                    locale: router.locale,
+                });
+            } else {
+                router.push('/', undefined, {
+                    locale: router.locale,
+                });
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const resp = error.response;
+                switch (resp.status) {
+                    case 403:
+                        router.push('/', undefined, {
+                            locale: router.locale,
+                        });
+                        break;
+
+                    case 422:
+                        toast({
+                            title: t('login-fail'),
+                            status: 'error',
+                            duration: 20_000,
+                            position: 'bottom-left',
+                            isClosable: true,
+                        });
+                        break;
+
+                    default:
+                        throw error;
+                }
+            } else {
+                throw error;
+            }
+        }
+    });
 
     useEffectOnce(() => {
         if (errorCode) {
@@ -98,92 +167,132 @@ function Login() {
                         </NextLink>
                     </Text>
                 </Stack>
-                <Box
-                    rounded="lg"
-                    bg={useColorModeValue('white', 'gray.700')}
-                    boxShadow="lg"
-                    p={8}
-                >
-                    <Stack spacing={4}>
-                        <Flex justify="center" gap="6">
-                            <Tooltip label={t('tooltip-github')}>
-                                <Button
-                                    as={Link}
-                                    href={`${apiUrl}/auth/github`}
-                                >
-                                    <Icon as={FaGithub} w={6} h={6} />
-                                </Button>
-                            </Tooltip>
-                            <Tooltip label={t('tooltip-discord')}>
-                                <Button
-                                    as={Link}
-                                    href={`${apiUrl}/auth/discord`}
-                                >
-                                    <Icon as={FaDiscord} w={6} h={6} />
-                                </Button>
-                            </Tooltip>
-                            <Tooltip label={t('tooltip-google')}>
-                                <Button
-                                    as={Link}
-                                    href={`${apiUrl}/auth/google`}
-                                >
-                                    <Icon as={FaGoogle} w={6} h={6} />
-                                </Button>
-                            </Tooltip>
-                        </Flex>
-                        <Flex align="center">
-                            <Divider />
-                            <Text padding="2">or</Text>
-                            <Divider />
-                        </Flex>
-                        <FormControl id="email">
-                            <FormLabel>{t('email')}</FormLabel>
-                            <Input type="email" />
-                        </FormControl>
-                        <FormControl id="password">
-                            <FormLabel>{t('password')}</FormLabel>
-                            <InputGroup>
-                                <Input
-                                    type={showPassword ? 'text' : 'password'}
-                                />
-                                <InputRightElement h="full">
+                <form onSubmit={onSubmit}>
+                    <Box
+                        rounded="lg"
+                        bg={useColorModeValue('white', 'gray.700')}
+                        boxShadow="lg"
+                        p={8}
+                    >
+                        <Stack spacing={4}>
+                            <Flex justify="center" gap="6">
+                                <Tooltip label={t('tooltip-github')}>
                                     <Button
-                                        variant="ghost"
-                                        onClick={() =>
-                                            setShowPassword((s) => !s)
-                                        }
+                                        as={Link}
+                                        href={`${apiUrl}/auth/github`}
                                     >
-                                        {showPassword ? (
-                                            <ViewIcon />
-                                        ) : (
-                                            <ViewOffIcon />
-                                        )}
+                                        <Icon as={FaGithub} w={6} h={6} />
                                     </Button>
-                                </InputRightElement>
-                            </InputGroup>
-                        </FormControl>
-                        <Stack spacing={10}>
-                            <Stack
-                                direction={{ base: 'column', sm: 'row' }}
-                                align="start"
-                                justify="space-between"
+                                </Tooltip>
+                                <Tooltip label={t('tooltip-discord')}>
+                                    <Button
+                                        as={Link}
+                                        href={`${apiUrl}/auth/discord`}
+                                    >
+                                        <Icon as={FaDiscord} w={6} h={6} />
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip label={t('tooltip-google')}>
+                                    <Button
+                                        as={Link}
+                                        href={`${apiUrl}/auth/google`}
+                                    >
+                                        <Icon as={FaGoogle} w={6} h={6} />
+                                    </Button>
+                                </Tooltip>
+                            </Flex>
+                            <Flex align="center">
+                                <Divider />
+                                <Text padding="2">or</Text>
+                                <Divider />
+                            </Flex>
+                            <FormControl
+                                id="email"
+                                isInvalid={Boolean(errors.email)}
                             >
-                                <Checkbox defaultChecked>
-                                    {t('remember')}
-                                </Checkbox>
+                                <FormLabel htmlFor="email">
+                                    {t('email')}
+                                </FormLabel>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="john@example.com"
+                                    {...register('email', {
+                                        required: t('required'),
+                                    })}
+                                />
+                                <FormErrorMessage>
+                                    {errors.email && errors.email.message}
+                                </FormErrorMessage>
+                            </FormControl>
+                            <FormControl
+                                id="password"
+                                isInvalid={Boolean(errors.password)}
+                            >
+                                <FormLabel htmlFor="password">
+                                    {t('password')}
+                                </FormLabel>
+                                <InputGroup>
+                                    <Input
+                                        id="password"
+                                        placeholder="********"
+                                        type={
+                                            showPassword ? 'text' : 'password'
+                                        }
+                                        {...register('password', {
+                                            required: t('required'),
+                                        })}
+                                    />
+                                    <InputRightElement h="full">
+                                        <Button
+                                            variant="ghost"
+                                            onClick={() =>
+                                                setShowPassword((s) => !s)
+                                            }
+                                        >
+                                            {showPassword ? (
+                                                <ViewIcon />
+                                            ) : (
+                                                <ViewOffIcon />
+                                            )}
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                                <FormErrorMessage>
+                                    {errors.password && errors.password.message}
+                                </FormErrorMessage>
+                            </FormControl>
+                            <Stack spacing={10}>
+                                <Controller
+                                    name="remember"
+                                    control={control}
+                                    render={({
+                                        field: { onChange, value, ref },
+                                    }) => (
+                                        <Checkbox
+                                            onChange={onChange}
+                                            ref={ref}
+                                            isChecked={value}
+                                        >
+                                            {t('remember')}
+                                        </Checkbox>
+                                    )}
+                                />
+                                <Button
+                                    bg="orange.400"
+                                    color="white"
+                                    _hover={{
+                                        bg: 'orange.500',
+                                    }}
+                                    isLoading={isSubmitting}
+                                    type="submit"
+                                >
+                                    {t('sign-in-btn')}
+                                </Button>
                             </Stack>
-                            <Button
-                                bg="orange.400"
-                                color="white"
-                                _hover={{
-                                    bg: 'orange.500',
-                                }}
-                            >
-                                {t('sign-in-btn')}
-                            </Button>
                         </Stack>
-                    </Stack>
-                </Box>
+                    </Box>
+                </form>
             </Stack>
         </Flex>
     );

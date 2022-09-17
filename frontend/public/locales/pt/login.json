@@ -12,5 +12,7 @@
     "toast-error-title": "Ops",
     "toast-error-code-1": "Ocorreu um erro ao validar suas informações, tente novamente.",
     "toast-error-code-2": "Ocorreu um erro ao carregar suas informações, tente novamente.",
-    "toast-error-code-3": "Ocorreu um erro interno, entre em contato com o desenvolvedor."
+    "toast-error-code-3": "Ocorreu um erro interno, entre em contato com o desenvolvedor.",
+    "required": "Este campo deve ser preenchido!",
+    "login-fail": "É-mail ou senha, inválidos."
 }
