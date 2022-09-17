@@ -61,7 +61,7 @@ module.exports = {
         'no-promise-executor-return': 'error',
         'no-restricted-syntax': 'error',
         'no-unreachable-loop': 'error',
-        'no-unused-vars': 'warn',
+        'no-unused-vars': 'error',
         'no-useless-backreference': 'error',
         'prefer-regex-literals': 'error',
         'react/prop-types': 'error',
