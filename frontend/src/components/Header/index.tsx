@@ -22,7 +22,10 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
-import { useAppSelector } from 'store';
+import { useEffectOnce } from 'react-use';
+import { useAppDispatch, useAppSelector } from 'store';
+
+import { loadUser } from '../../store/User.store';
 
 interface NavItem {
     label: string;
@@ -106,6 +109,11 @@ function Header() {
     const { t } = useTranslation('header');
     const { isOpen, onToggle } = useDisclosure();
     const { user, logged, loading } = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch();
+
+    useEffectOnce(() => {
+        dispatch(loadUser());
+    });
 
     return (
         <Box>

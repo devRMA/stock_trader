@@ -1,4 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+import api from '../services/api';
 
 export interface User {
     id: number;
@@ -37,10 +40,30 @@ const initialState: UserState = {
     loading: false,
 };
 
+export const loadUser = createAsyncThunk('user/loadUser', async () => {
+    const resp = await api.get<User>('/users/@me');
+
+    return resp.data;
+});
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(loadUser.pending, (state) => {
+            state.loading = true;
+            state.logged = false;
+        });
+        builder.addCase(loadUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.logged = true;
+        });
+        builder.addCase(loadUser.rejected, (state, action) => {
+            state.loading = false;
+            state.logged = false;
+        });
+    },
 });
 
 export default userSlice.reducer;
