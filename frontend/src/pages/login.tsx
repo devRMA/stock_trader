@@ -20,7 +20,7 @@ import {
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { GetStaticPropsContext } from 'next';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
