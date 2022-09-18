@@ -37,7 +37,7 @@ function Footer() {
                 justify={{ base: 'center', md: 'space-between' }}
                 align={{ base: 'center', md: 'center' }}
             >
-                <Text>© 2022 devRMA. All rights reserved</Text>
+                <Text>© 2022 devRMA</Text>
                 <Stack direction="row" spacing={4}>
                     <SocialButton
                         label="Github"
