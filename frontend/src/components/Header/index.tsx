@@ -5,26 +5,30 @@ import {
     Button,
     Collapse,
     Flex,
+    HStack,
     IconButton,
     Link,
     Menu,
     MenuButton,
     MenuDivider,
-    MenuGroup,
     MenuItem,
     MenuList,
     SkeletonCircle,
+    SkeletonText,
     Stack,
     Text,
     useBreakpointValue,
     useColorModeValue,
     useDisclosure,
+    VStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
+import { FiChevronDown } from 'react-icons/fi';
 import { useEffectOnce } from 'react-use';
 import { selectUser, useAppDispatch, useAppSelector } from 'store/hooks';
 import { loadUser, logoutUser } from 'store/User.store';
+import { formatMoney } from 'utils/formats';
 
 interface NavItem {
     label: string;
@@ -77,7 +81,7 @@ function MobileNav() {
 
     return (
         <Stack
-            bg={useColorModeValue('white', 'gray.800')}
+            bg={useColorModeValue('white', 'gray.900')}
             p={4}
             display={{ md: 'none' }}
         >
@@ -104,10 +108,139 @@ function MobileNav() {
     );
 }
 
+function UserDropdown() {
+    const { t } = useTranslation('header');
+    const { user, loading } = useAppSelector(selectUser);
+    const dispatch = useAppDispatch();
+    const nameColor = useColorModeValue('gray.800', 'white');
+    const balanceColor = useColorModeValue('gray.600', 'gray.500');
+    const bgColor = useColorModeValue('white', 'gray.900');
+    const borderColor = useColorModeValue('gray.200', 'gray.700');
+
+    return (
+        <Menu>
+            <MenuButton
+                as={Button}
+                variant="link"
+                py={2}
+                transition="all 0.3s"
+                _focus={{ boxShadow: 'none' }}
+                _hover={{ textDecoration: 'none' }}
+            >
+                <HStack justify="center">
+                    <SkeletonCircle isLoaded={!loading} fadeDuration={1}>
+                        <Avatar size="sm" name={user.name} src={user.avatar} />
+                    </SkeletonCircle>
+                    <SkeletonText
+                        isLoaded={!loading}
+                        fadeDuration={1}
+                        noOfLines={2}
+                        display={{
+                            base: 'none',
+                            md: 'block',
+                        }}
+                    >
+                        <VStack alignItems="flex-start" spacing="1px" ml="2">
+                            <Text fontSize="sm" color={nameColor}>
+                                {user.name}
+                            </Text>
+                            <Text fontSize="xs" color={balanceColor}>
+                                {t('balance', {
+                                    money: formatMoney(user.money),
+                                })}
+                            </Text>
+                        </VStack>
+                    </SkeletonText>
+                    <Box
+                        display={{
+                            base: 'none',
+                            md: 'flex',
+                        }}
+                    >
+                        <FiChevronDown />
+                    </Box>
+                </HStack>
+            </MenuButton>
+            <MenuList bg={bgColor} borderColor={borderColor}>
+                <Stack align="center" spacing={5} py={3}>
+                    <SkeletonCircle
+                        isLoaded={!loading}
+                        fadeDuration={1}
+                        size=""
+                    >
+                        <Avatar size="2xl" name={user.name} src={user.avatar} />
+                    </SkeletonCircle>
+                    <SkeletonText
+                        isLoaded={!loading}
+                        fadeDuration={1}
+                        noOfLines={2}
+                    >
+                        <VStack alignItems="center" spacing="1px">
+                            <Text fontSize="md" color={nameColor}>
+                                {user.name}
+                            </Text>
+                            <Text fontSize="sm" color={balanceColor}>
+                                {t('balance', {
+                                    money: formatMoney(user.money),
+                                })}
+                            </Text>
+                        </VStack>
+                    </SkeletonText>
+                </Stack>
+                <MenuDivider />
+                <MenuItem>Your Servers</MenuItem>
+                <MenuItem>Account Settings</MenuItem>
+                <MenuItem onClick={() => dispatch(logoutUser())}>
+                    {t('logout')}
+                </MenuItem>
+            </MenuList>
+        </Menu>
+    );
+}
+
+const AuthLinks = () => {
+    const { t } = useTranslation('header');
+
+    return (
+        <>
+            <NextLink href="/login" passHref>
+                <Button
+                    as={Link}
+                    fontSize="sm"
+                    fontWeight={400}
+                    variant="link"
+                    _hover={{ textDecoration: 'none' }}
+                >
+                    {t('login')}
+                </Button>
+            </NextLink>
+            <NextLink href="#register" passHref>
+                <Button
+                    as={Link}
+                    display={{
+                        base: 'none',
+                        md: 'inline-flex',
+                    }}
+                    fontSize="sm"
+                    fontWeight={600}
+                    colorScheme="orange"
+                    bg="orange.400"
+                    _hover={{
+                        textDecoration: 'none',
+                        bg: 'orange.500',
+                    }}
+                >
+                    {t('register')}
+                </Button>
+            </NextLink>
+        </>
+    );
+};
+
 function Header() {
     const { t } = useTranslation('header');
     const { isOpen, onToggle } = useDisclosure();
-    const { user, logged, loading } = useAppSelector(selectUser);
+    const { logged } = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
 
     useEffectOnce(() => {
@@ -119,7 +252,7 @@ function Header() {
     return (
         <Box>
             <Flex
-                bg={useColorModeValue('white', 'gray.800')}
+                bg={useColorModeValue('white', 'gray.900')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH="60px"
                 py={{ base: 2 }}
@@ -172,81 +305,7 @@ function Header() {
                     direction="row"
                     spacing={6}
                 >
-                    {logged ? (
-                        <Menu>
-                            <MenuButton
-                                as={Button}
-                                rounded="full"
-                                variant="link"
-                                cursor="pointer"
-                                minW={0}
-                            >
-                                <SkeletonCircle
-                                    isLoaded={!loading}
-                                    fadeDuration={1}
-                                >
-                                    <Avatar
-                                        name={user.name}
-                                        size="sm"
-                                        src={user.avatar}
-                                    />
-                                </SkeletonCircle>
-                            </MenuButton>
-                            <MenuList>
-                                <MenuGroup
-                                    title={t('salutation', { name: user.name })}
-                                >
-                                    <NextLink href="#settings" passHref>
-                                        <MenuItem
-                                            as={Link}
-                                            _hover={{ textDecoration: 'none' }}
-                                        >
-                                            {t('settings')}
-                                        </MenuItem>
-                                    </NextLink>
-                                </MenuGroup>
-                                <MenuDivider />
-                                <MenuItem
-                                    onClick={() => dispatch(logoutUser())}
-                                >
-                                    {t('logout')}
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
-                    ) : (
-                        <>
-                            <NextLink href="/login" passHref>
-                                <Button
-                                    as={Link}
-                                    fontSize="sm"
-                                    fontWeight={400}
-                                    variant="link"
-                                    _hover={{ textDecoration: 'none' }}
-                                >
-                                    {t('login')}
-                                </Button>
-                            </NextLink>
-                            <NextLink href="#register" passHref>
-                                <Button
-                                    as={Link}
-                                    display={{
-                                        base: 'none',
-                                        md: 'inline-flex',
-                                    }}
-                                    fontSize="sm"
-                                    fontWeight={600}
-                                    colorScheme="orange"
-                                    bg="orange.400"
-                                    _hover={{
-                                        textDecoration: 'none',
-                                        bg: 'orange.500',
-                                    }}
-                                >
-                                    {t('register')}
-                                </Button>
-                            </NextLink>
-                        </>
-                    )}
+                    {logged ? <UserDropdown /> : <AuthLinks />}
                 </Stack>
             </Flex>
 

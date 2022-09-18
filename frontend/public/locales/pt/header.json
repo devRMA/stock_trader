@@ -1,6 +1,6 @@
 {
     "toggle-navigation": "Alternar Navegação",
-    "salutation": "Olá, {{name}}!",
+    "balance": "Saldo: {{money}}",
     "settings": "Configurações",
     "logout": "Sair",
     "login": "Entrar",

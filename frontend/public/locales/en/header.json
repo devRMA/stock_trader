@@ -1,6 +1,6 @@
 {
     "toggle-navigation": "Toggle Navigation",
-    "salutation": "Hello, {{name}}!",
+    "balance": "Balance: {{money}}",
     "settings": "Settings",
     "logout": "Logout",
     "login": "Login",
