@@ -91,7 +91,7 @@ function Login() {
                             title: t('login-fail'),
                             status: 'error',
                             duration: 20_000,
-                            position: 'bottom-left',
+                            position: 'top-right',
                             isClosable: true,
                         });
                         break;
@@ -114,7 +114,7 @@ function Login() {
                         description: t('toast-error-code-1'),
                         status: 'error',
                         duration: 20_000,
-                        position: 'bottom-left',
+                        position: 'top-right',
                         isClosable: true,
                     });
                     break;
@@ -125,7 +125,7 @@ function Login() {
                         description: t('toast-error-code-2'),
                         status: 'error',
                         duration: 20_000,
-                        position: 'bottom-left',
+                        position: 'top-right',
                         isClosable: true,
                     });
                     break;
@@ -136,7 +136,7 @@ function Login() {
                         description: t('toast-error-code-3'),
                         status: 'error',
                         duration: 20_000,
-                        position: 'bottom-left',
+                        position: 'top-right',
                         isClosable: true,
                     });
                     break;
