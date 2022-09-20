@@ -67,8 +67,7 @@ function Login() {
                 remember,
             });
             if (resp.data.two_factor) {
-                // TODO : push to 2FA challenge after login
-                router.push('/', undefined, {
+                router.push('login/challenge', undefined, {
                     locale: router.locale,
                 });
             } else {
@@ -155,7 +154,7 @@ function Login() {
             justify="center"
             bg={useColorModeValue('gray.50', 'gray.800')}
         >
-            <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
+            <Stack w="full" spacing={8} mx="auto" maxW="lg" py={12} px={6}>
                 <Stack align="center">
                     <Heading fontSize="4xl">{t('sign-in')}</Heading>
                     <Text fontSize="lg" color="gray.600">
@@ -171,7 +170,7 @@ function Login() {
                     <Box
                         rounded="lg"
                         bg={useColorModeValue('white', 'gray.700')}
-                        boxShadow="lg"
+                        boxShadow="2xl"
                         p={8}
                     >
                         <Stack spacing={4}>
@@ -280,7 +279,7 @@ function Login() {
                                 />
                                 <Button
                                     bg="orange.400"
-                                    color="white"
+                                    colorScheme="orange"
                                     _hover={{
                                         bg: 'orange.500',
                                     }}
