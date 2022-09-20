@@ -140,6 +140,7 @@ function Challenge() {
                                 <Button
                                     w="full"
                                     onClick={() => router.push('/login')}
+                                    textTransform="uppercase"
                                 >
                                     {t('cancel')}
                                 </Button>
@@ -153,6 +154,7 @@ function Challenge() {
                                     type="submit"
                                     ref={submitBtn}
                                     w="full"
+                                    textTransform="uppercase"
                                 >
                                     {t('send')}
                                 </Button>
