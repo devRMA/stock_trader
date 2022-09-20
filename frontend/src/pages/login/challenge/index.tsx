@@ -45,9 +45,7 @@ function Challenge() {
             await api.post('/two-factor-challenge', {
                 code,
             });
-            router.push('/', undefined, {
-                locale: router.locale,
-            });
+            router.push('/');
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const resp = error.response;
