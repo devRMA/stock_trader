@@ -1,0 +1,8 @@
+{
+    "title": "Digite o código de segurança para continuar",
+    "description": "Digite o código de segurança do seu aplicativo de autenticação.",
+    "another-way": "Tentar de outra maneira",
+    "cancel": "Cancelar",
+    "send": "Continuar",
+    "challenge-fail": "Código de segurança inválido ou expirado."
+}

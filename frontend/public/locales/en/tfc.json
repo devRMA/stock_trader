@@ -1,0 +1,8 @@
+{
+    "title": "Enter the security code to continue",
+    "description": "Please enter the security code from your authenticator app.",
+    "another-way": "Try another way",
+    "cancel": "Cancel",
+    "send": "Continue",
+    "challenge-fail": "The security code is invalid or expired."
+}
