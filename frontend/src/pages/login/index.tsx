@@ -160,7 +160,7 @@ function Login() {
                     <Text fontSize="lg" color="gray.600">
                         {t('new-here')}
                         <NextLink href="/register" passHref>
-                            <Link href="/register" color="orange.400">
+                            <Link color="orange.400">
                                 {t('create-account')}
                             </Link>
                         </NextLink>

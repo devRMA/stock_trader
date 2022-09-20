@@ -57,7 +57,6 @@ function DesktopNav() {
                     <NextLink href={navItem.href} passHref>
                         <Link
                             p={2}
-                            href={navItem.href}
                             fontSize="sm"
                             fontWeight={500}
                             color={linkColor}
@@ -90,7 +89,6 @@ function MobileNav() {
                     <NextLink href={navItem.href} passHref>
                         <Link
                             p={2}
-                            href={navItem.href}
                             fontSize="sm"
                             fontWeight={500}
                             color={linkColor}
