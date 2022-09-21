@@ -4,5 +4,8 @@
     "another-way": "Try another way",
     "cancel": "Cancel",
     "send": "Continue",
-    "challenge-fail": "The security code is invalid or expired."
+    "challenge-fail": "The security code is invalid or expired.",
+    "recovery-title": "Enter the backup code to continue",
+    "recovery-description": "Please enter one of your 8 digit backup codes.",
+    "recovery-back": "Back"
 }

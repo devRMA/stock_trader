@@ -4,5 +4,8 @@
     "another-way": "Tentar de outra maneira",
     "cancel": "Cancelar",
     "send": "Continuar",
-    "challenge-fail": "Código de segurança inválido ou expirado."
+    "challenge-fail": "Código de segurança inválido ou expirado.",
+    "recovery-title": "Digite o código de backup para continuar",
+    "recovery-description": "Digite um dos seus códigos de backup de 8 dígitos.",
+    "recovery-back": "Voltar"
 }
