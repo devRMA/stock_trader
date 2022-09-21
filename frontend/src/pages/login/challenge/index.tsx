@@ -18,8 +18,9 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useEffectOnce } from 'react-use';
 import api from 'services/api';
 
 interface FormInputs {
@@ -31,14 +32,11 @@ function Challenge() {
     const router = useRouter();
     const toast = useToast();
     const submitBtn = useRef<HTMLButtonElement>(null);
-    const {
-        control,
-        handleSubmit,
-        setValue,
-        formState: { isSubmitting },
-    } = useForm<FormInputs>();
+    const [isLoading, setIsLoading] = useState(false);
+    const { control, handleSubmit, setValue } = useForm<FormInputs>();
 
     const onSubmit = handleSubmit(async (data) => {
+        setIsLoading(true);
         const { code } = data;
         await api.get('/sanctum/csrf-cookie');
         try {
@@ -61,6 +59,7 @@ function Challenge() {
                         setValue('code', '', {
                             shouldValidate: false,
                         });
+                        setIsLoading(false);
                         break;
 
                     default:
@@ -70,6 +69,10 @@ function Challenge() {
                 throw error;
             }
         }
+    });
+
+    useEffectOnce(() => {
+        return () => toast.closeAll();
     });
 
     return (
@@ -110,7 +113,7 @@ function Challenge() {
                                         <PinInput
                                             onChange={onChange}
                                             value={value}
-                                            isDisabled={isSubmitting}
+                                            isDisabled={isLoading}
                                             isInvalid={!!error}
                                             onComplete={() =>
                                                 submitBtn.current?.click()
@@ -150,7 +153,7 @@ function Challenge() {
                                     _hover={{
                                         bg: 'orange.500',
                                     }}
-                                    isLoading={isSubmitting}
+                                    isLoading={isLoading}
                                     type="submit"
                                     ref={submitBtn}
                                     w="full"

@@ -44,11 +44,12 @@ function Login() {
     const router = useRouter();
     const toast = useToast();
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const {
         control,
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<FormInputs>({
         defaultValues: {
             remember: true,
@@ -56,6 +57,7 @@ function Login() {
     });
 
     const onSubmit = handleSubmit(async (data) => {
+        setIsLoading(true);
         const { email, password, remember } = data;
         await api.get('/sanctum/csrf-cookie');
         try {
@@ -67,22 +69,17 @@ function Login() {
                 remember,
             });
             if (resp.data.two_factor) {
-                router.push('login/challenge', undefined, {
-                    locale: router.locale,
-                });
+                router.push('/login/challenge');
             } else {
-                router.push('/', undefined, {
-                    locale: router.locale,
-                });
+                router.push('/');
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const resp = error.response;
                 switch (resp.status) {
                     case 403:
-                        router.push('/', undefined, {
-                            locale: router.locale,
-                        });
+                        router.push('/');
+                        setIsLoading(false);
                         break;
 
                     case 422:
@@ -93,6 +90,7 @@ function Login() {
                             position: 'top-right',
                             isClosable: true,
                         });
+                        setIsLoading(false);
                         break;
 
                     default:
@@ -145,6 +143,8 @@ function Login() {
             }
             router.push(router.pathname);
         }
+
+        return () => toast.closeAll();
     });
 
     return (
@@ -283,7 +283,7 @@ function Login() {
                                     _hover={{
                                         bg: 'orange.500',
                                     }}
-                                    isLoading={isSubmitting}
+                                    isLoading={isLoading}
                                     type="submit"
                                 >
                                     {t('sign-in-btn')}
