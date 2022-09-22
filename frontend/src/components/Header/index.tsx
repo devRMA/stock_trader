@@ -23,7 +23,9 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { useEffect } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useEffectOnce } from 'react-use';
 import { selectUser, useAppDispatch, useAppSelector } from 'store/hooks';
@@ -239,13 +241,21 @@ function Header() {
     const { t } = useTranslation('header');
     const { isOpen, onToggle } = useDisclosure();
     const { logged } = useAppSelector(selectUser);
+    const { user } = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     useEffectOnce(() => {
         if (!logged) {
             dispatch(loadUser());
         }
     });
+
+    useEffect(() => {
+        if (user.banned && user.bans.length > 0) {
+            router.push('/banned');
+        }
+    }, [user, router]);
 
     return (
         <Box>
