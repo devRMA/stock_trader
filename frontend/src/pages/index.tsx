@@ -12,6 +12,7 @@ import Footer from 'components/Footer';
 import Header from 'components/Header';
 import Lottie from 'lottie-react';
 import { GetStaticPropsContext } from 'next';
+import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -57,24 +58,25 @@ function Index() {
                             direction={{ base: 'column', md: 'row' }}
                             spacing={4}
                         >
-                            <Button
-                                as={Link}
-                                href="#register"
-                                rounded="full"
-                                bg="orange.400"
-                                colorScheme="orange"
-                                _hover={{
-                                    textDecoration: 'none',
-                                    bg: 'orange.500',
-                                }}
-                            >
-                                {t('cta')}
-                            </Button>
+                            <NextLink href="/login" passHref>
+                                <Button
+                                    as={Link}
+                                    rounded="full"
+                                    bg="orange.400"
+                                    colorScheme="orange"
+                                    _hover={{
+                                        textDecoration: 'none',
+                                        bg: 'orange.500',
+                                    }}
+                                >
+                                    {t('cta')}
+                                </Button>
+                            </NextLink>
                         </Stack>
                     </Stack>
                 </Flex>
                 <Flex flex={1}>
-                    <Lottie animationData={illustrationData} loop autoPlay />
+                    <Lottie animationData={illustrationData} />
                 </Flex>
             </Stack>
             <Footer />
