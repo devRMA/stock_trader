@@ -113,7 +113,7 @@ Route::controller(UsersController::class)
                     ->where('user', '[0-9]+')
                     ->name('add');
 
-                // DELETE ers/bans/{user}
+                // DELETE users/bans/{user}
                 Route::delete('{user}', 'unban')
                     ->where('user', '[0-9]+')
                     ->name('remove');
