@@ -9,9 +9,14 @@ const config: ThemeConfig = {
     useSystemColorMode: false,
 };
 
+const colors = {
+    white: '#f1f1f1',
+};
+
 const theme = extendTheme({
     config,
     fonts,
+    colors,
 });
 
 export default theme;
