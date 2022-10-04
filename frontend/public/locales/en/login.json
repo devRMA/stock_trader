@@ -9,6 +9,7 @@
     "password": "Password",
     "remember": "Remember me",
     "sign-in-btn": "Sign in",
+    "or": "or continue with",
     "toast-error-title": "Oops",
     "toast-error-code-1": "There was an error validating your information, please try again.",
     "toast-error-code-2": "There was an error loading your information, please try again.",
