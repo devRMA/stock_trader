@@ -39,11 +39,11 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
     {
-        label: 'Learn Design',
+        label: 'Foo',
         href: '#foo',
     },
     {
-        label: 'Hire Designers',
+        label: 'Bar',
         href: '#bar',
     },
 ];
@@ -116,6 +116,12 @@ function UserDropdown() {
     const balanceColor = useColorModeValue('gray.600', 'gray.500');
     const bgColor = useColorModeValue('white', 'gray.900');
     const borderColor = useColorModeValue('gray.200', 'gray.700');
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await dispatch(logoutUser());
+        router.push('/');
+    };
 
     return (
         <Menu>
@@ -190,9 +196,7 @@ function UserDropdown() {
                 <MenuDivider />
                 <MenuItem>Your Servers</MenuItem>
                 <MenuItem>Account Settings</MenuItem>
-                <MenuItem onClick={() => dispatch(logoutUser())}>
-                    {t('logout')}
-                </MenuItem>
+                <MenuItem onClick={handleLogout}>{t('logout')}</MenuItem>
             </MenuList>
         </Menu>
     );
@@ -252,7 +256,12 @@ function Header() {
     });
 
     useEffect(() => {
-        if (user.banned && user.bans.length > 0) {
+        const bannedAllowedRoutes = ['/banned'];
+        if (
+            user.banned &&
+            user.bans.length > 0 &&
+            !bannedAllowedRoutes.includes(router.pathname)
+        ) {
             router.push('/banned');
         }
     }, [user, router]);
