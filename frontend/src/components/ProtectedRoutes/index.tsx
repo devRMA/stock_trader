@@ -1,8 +1,7 @@
 import minimatch from 'minimatch';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
-import { useEffectOnce } from 'react-use';
+import { ReactElement, useEffect, useMemo, useRef } from 'react';
 import { selectUser, useAppSelector } from 'store/hooks';
 
 interface Props {
@@ -16,44 +15,47 @@ type RouteMiddleware = [RoutePattern, Callback];
 function ProtectedRoutes({ children }: Props) {
     const router = useRouter();
     const { logged, user } = useAppSelector(selectUser);
-    let canAccess = true;
+    const canAccess = useRef(true);
 
-    const middlewares: RouteMiddleware[] = [
-        [
-            '/login',
-            () => {
-                if (logged) {
-                    router.push('/');
-                }
+    const middlewares = useMemo<RouteMiddleware[]>(
+        () => [
+            [
+                '/login',
+                () => {
+                    if (logged) {
+                        router.push('/');
+                    }
 
-                return !logged;
-            },
+                    return !logged;
+                },
+            ],
+            [
+                '/banned',
+                () => {
+                    if (!logged || !user.banned || user.bans.length === 0) {
+                        router.push('/');
+
+                        return false;
+                    }
+
+                    return true;
+                },
+            ],
         ],
-        [
-            '/banned',
-            () => {
-                if (!logged || !user.banned || user.bans.length === 0) {
-                    router.push('/');
+        [logged, router, user.banned, user.bans.length],
+    );
 
-                    return false;
-                }
-
-                return true;
-            },
-        ],
-    ];
-
-    useEffectOnce(() => {
+    useEffect(() => {
         // eslint-disable-next-line no-restricted-syntax
         for (const [pattern, callback] of middlewares) {
             if (minimatch(router.pathname, pattern)) {
-                canAccess = callback();
-                if (!canAccess) {
+                canAccess.current = callback();
+                if (!canAccess.current) {
                     break;
                 }
             }
         }
-    });
+    }, [middlewares, router.pathname]);
 
     return canAccess ? (
         children
