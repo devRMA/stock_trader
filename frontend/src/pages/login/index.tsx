@@ -9,18 +9,18 @@ import {
     FormErrorMessage,
     FormLabel,
     Heading,
-    Icon,
+    HStack,
     Input,
     InputGroup,
     InputRightElement,
     Link,
     Stack,
     Text,
-    Tooltip,
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import OAuthButtons from 'components/OAuthButtons';
 import { GetStaticPropsContext } from 'next';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -28,9 +28,8 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FaDiscord, FaGithub, FaGoogle } from 'react-icons/fa';
 import { useEffectOnce, useSearchParam } from 'react-use';
-import api, { apiUrl } from 'services/api';
+import api from 'services/api';
 
 interface FormInputs {
     email: string;
@@ -174,37 +173,6 @@ function Login() {
                         p={8}
                     >
                         <Stack spacing={4}>
-                            <Flex justify="center" gap="6">
-                                <Tooltip label={t('tooltip-github')}>
-                                    <Button
-                                        as={Link}
-                                        href={`${apiUrl}/auth/github`}
-                                    >
-                                        <Icon as={FaGithub} w={6} h={6} />
-                                    </Button>
-                                </Tooltip>
-                                <Tooltip label={t('tooltip-discord')}>
-                                    <Button
-                                        as={Link}
-                                        href={`${apiUrl}/auth/discord`}
-                                    >
-                                        <Icon as={FaDiscord} w={6} h={6} />
-                                    </Button>
-                                </Tooltip>
-                                <Tooltip label={t('tooltip-google')}>
-                                    <Button
-                                        as={Link}
-                                        href={`${apiUrl}/auth/google`}
-                                    >
-                                        <Icon as={FaGoogle} w={6} h={6} />
-                                    </Button>
-                                </Tooltip>
-                            </Flex>
-                            <Flex align="center">
-                                <Divider />
-                                <Text padding="2">or</Text>
-                                <Divider />
-                            </Flex>
                             <FormControl
                                 id="email"
                                 isInvalid={Boolean(errors.email)}
@@ -261,7 +229,7 @@ function Login() {
                                     {errors.password && errors.password.message}
                                 </FormErrorMessage>
                             </FormControl>
-                            <Stack spacing={10}>
+                            <Stack spacing={6}>
                                 <Controller
                                     name="remember"
                                     control={control}
@@ -288,6 +256,18 @@ function Login() {
                                 >
                                     {t('sign-in-btn')}
                                 </Button>
+                                <HStack>
+                                    <Divider />
+                                    <Text
+                                        fontSize="sm"
+                                        whiteSpace="nowrap"
+                                        color="muted"
+                                    >
+                                        {t('or')}
+                                    </Text>
+                                    <Divider />
+                                </HStack>
+                                <OAuthButtons />
                             </Stack>
                         </Stack>
                     </Box>
@@ -300,7 +280,10 @@ function Login() {
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
     return {
         props: {
-            ...(await serverSideTranslations(locale ?? 'pt', ['login'])),
+            ...(await serverSideTranslations(locale ?? 'pt', [
+                'login',
+                'oauth',
+            ])),
         },
     };
 }
