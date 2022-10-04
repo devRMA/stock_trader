@@ -1,6 +1,6 @@
 {
     "title": "Banido",
     "description": "Você foi banido por violar uma ou mais diretrizes de uso.",
-    "reason": "Motivo",
-    "date": "Data"
+    "reason": "Motivo: ",
+    "date": "Data: "
 }
