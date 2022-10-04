@@ -1,0 +1,27 @@
+{
+    "name": "Stock Trader",
+    "short_name": "Stock Trader",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#ed8936",
+    "background_color": "#ed8936",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+}
