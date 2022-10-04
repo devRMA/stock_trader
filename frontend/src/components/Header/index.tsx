@@ -17,11 +17,11 @@ import {
     SkeletonText,
     Stack,
     Text,
-    useBreakpointValue,
     useColorModeValue,
     useDisclosure,
     VStack,
 } from '@chakra-ui/react';
+import NextImage from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -301,16 +301,17 @@ function Header() {
                     flex={{ base: 1 }}
                     justify={{ base: 'center', md: 'start' }}
                 >
-                    <Text
-                        textAlign={useBreakpointValue({
-                            base: 'center',
-                            md: 'left',
-                        })}
-                        fontFamily="heading"
-                        color={useColorModeValue('gray.800', 'white')}
-                    >
-                        Logo
-                    </Text>
+                    <NextLink href="/">
+                        <NextImage
+                            src={useColorModeValue(
+                                '/logo.svg',
+                                '/logo-dark.svg',
+                            )}
+                            alt="Stock Trader Logo"
+                            width={32}
+                            height={32}
+                        />
+                    </NextLink>
 
                     <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
                         <DesktopNav />
