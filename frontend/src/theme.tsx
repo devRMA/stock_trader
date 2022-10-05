@@ -1,8 +1,5 @@
+import { theme as proTheme } from '@chakra-ui/pro-theme';
 import { type ThemeConfig, extendTheme } from '@chakra-ui/react';
-
-const fonts = {
-    body: `'JetBrains Mono', monospace`,
-};
 
 const config: ThemeConfig = {
     initialColorMode: 'dark',
@@ -10,13 +7,27 @@ const config: ThemeConfig = {
 };
 
 const colors = {
-    white: '#f1f1f1',
+    ...proTheme.colors,
+    brand: proTheme.colors.orange,
 };
 
-const theme = extendTheme({
-    config,
-    fonts,
-    colors,
-});
+const styles = {
+    ...proTheme.styles,
+    global: {
+        '*::placeholder': {
+            opacity: 0.5,
+            color: 'muted',
+        },
+    },
+};
+
+const theme = extendTheme(
+    {
+        config,
+        colors,
+        styles,
+    },
+    proTheme,
+);
 
 export default theme;
