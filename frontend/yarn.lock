@@ -1181,6 +1181,11 @@
     "@chakra-ui/react-context" "2.0.4"
     "@chakra-ui/spinner" "2.0.10"
 
+"@chakra-ui/anatomy@2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/anatomy/-/anatomy-2.0.6.tgz#83164841d27eaa271ffa747534519bcd323c312f"
+  integrity sha512-Vgop2FFdhVtX7BydjZdJWZAWy+DdXBU1IMaBppz6COaH+/7OXxoI2ec2bs17ehJyBO0M+ud3OLj5UCFQ79YsoQ==
+
 "@chakra-ui/anatomy@2.0.7":
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/@chakra-ui/anatomy/-/anatomy-2.0.7.tgz#33e60c7c4d6e5f949f6f8308249dc571f84ead1e"
@@ -1500,6 +1505,13 @@
   dependencies:
     "@chakra-ui/react-context" "2.0.4"
     "@chakra-ui/react-use-safe-layout-effect" "2.0.2"
+
+"@chakra-ui/pro-theme@^0.0.55":
+  version "0.0.55"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/pro-theme/-/pro-theme-0.0.55.tgz#e1eb610e6960b6e79ec7dc280078311263803804"
+  integrity sha512-c7MdkIBVoG00ly58noBbKyLI7F2vnpGl6jQ0n2UnrlL7zkZBF3jH/ZeR3f5p5pL3ED1Pe38HVsb9l5r0MIT5jA==
+  dependencies:
+    "@chakra-ui/theme-tools" "2.0.11"
 
 "@chakra-ui/progress@2.0.11":
   version "2.0.11"
@@ -1841,6 +1853,14 @@
   dependencies:
     "@chakra-ui/form-control" "2.0.11"
 
+"@chakra-ui/theme-tools@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-2.0.11.tgz#de97b422799627b5a514ae424ca08c1d348bc2a5"
+  integrity sha512-0Juf98bAyOgnBeQ39nMKWqRsOxZDw75BbAB8o0oVyjhYVS1wJh7tFX1ZRV8N/+AN6fuRXEznZPpyUh3J+ZTiRg==
+  dependencies:
+    "@chakra-ui/anatomy" "2.0.6"
+    "@ctrl/tinycolor" "^3.4.0"
+
 "@chakra-ui/theme-tools@2.0.12", "@chakra-ui/theme-tools@^2.0.2":
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-2.0.12.tgz#b29d9fb626d35e3b00f532c64f95ea261d8f6997"
@@ -2116,10 +2136,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@fontsource/jetbrains-mono@^4.5.9":
-  version "4.5.11"
-  resolved "https://registry.yarnpkg.com/@fontsource/jetbrains-mono/-/jetbrains-mono-4.5.11.tgz#e8055c18246576fbcbeddac4f0b7f8e4b8f45050"
-  integrity sha512-IW1qgWGkjlN1O6Jf+6LWF9DpcdXhyQEXhTlzfVKrWHX+ProuOT5FcrEAj34AR+19CgAb9Sheda2slORnybBsdw==
+"@fontsource/inter@^4.5.13":
+  version "4.5.13"
+  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.5.13.tgz#db4b0177992091816962c4a4a24b1e060cc750bf"
+  integrity sha512-nABtF6jNZZHrotLRiGBByhG7NKJGJHgMbX5W8v6C/7nSdyiWtMRfZX7AMIECDLYGUOEArZDeVO/SbkgwKLrLJw==
 
 "@gar/promisify@^1.0.1":
   version "1.1.3"
