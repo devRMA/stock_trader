@@ -1,4 +1,4 @@
-import '@fontsource/jetbrains-mono';
+import '@fontsource/inter/variable.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import ProtectedRoutes from 'components/ProtectedRoutes';
