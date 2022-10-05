@@ -39,7 +39,7 @@ function OAuthButtons() {
     );
 
     return (
-        <ButtonGroup variant="outline" spacing="4" width="full">
+        <ButtonGroup variant="outline" spacing="4">
             {oauthProviders.map(({ name, href, icon, tooltip }) => (
                 <Tooltip key={name} label={tooltip} width="full">
                     <Button as={Link} href={href}>

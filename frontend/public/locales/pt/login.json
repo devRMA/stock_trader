@@ -1,9 +1,11 @@
 {
-    "sign-in": "Faça login em sua conta",
-    "new-here": "Novo por aqui? ",
-    "create-account": "Crie uma conta",
-    "email": "Endereço de e-mail",
+    "sign-in": "Entre na sua conta",
+    "new-here": "Não tem uma conta?? ",
+    "create-account": "Cadastre-se",
+    "email": "E-mail",
     "password": "Senha",
+    "mask-password": "Esconder senha",
+    "reveal-password": "Mostrar senha",
     "remember": "Lembre-se de mim",
     "sign-in-btn": "Entrar",
     "or": "ou continue com",
@@ -11,6 +13,6 @@
     "toast-error-code-1": "Ocorreu um erro ao validar suas informações, tente novamente.",
     "toast-error-code-2": "Ocorreu um erro ao carregar suas informações, tente novamente.",
     "toast-error-code-3": "Ocorreu um erro interno, entre em contato com o desenvolvedor.",
-    "required": "Este campo deve ser preenchido!",
-    "login-fail": "É-mail ou senha, inválidos."
+    "required": "Este campo é obrigatório!",
+    "login-fail": "E-mail ou senha, inválidos."
 }

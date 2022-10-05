@@ -1,33 +1,38 @@
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
     Checkbox,
+    Container,
     Divider,
-    Flex,
     FormControl,
     FormErrorMessage,
     FormLabel,
     Heading,
     HStack,
+    IconButton,
     Input,
     InputGroup,
     InputRightElement,
     Link,
     Stack,
     Text,
+    useBreakpointValue,
     useColorModeValue,
+    useDisclosure,
     useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import Logo from 'components/Logo';
 import OAuthButtons from 'components/OAuthButtons';
 import { GetStaticPropsContext } from 'next';
+import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useEffectOnce, useSearchParam } from 'react-use';
 import api from 'services/api';
 
@@ -42,7 +47,7 @@ function Login() {
     const errorCode = useSearchParam('code');
     const router = useRouter();
     const toast = useToast();
-    const [showPassword, setShowPassword] = useState(false);
+    const { isOpen, onToggle } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const {
         control,
@@ -147,133 +152,174 @@ function Login() {
     });
 
     return (
-        <Flex
-            minH="100vh"
-            align="center"
-            justify="center"
-            bg={useColorModeValue('gray.50', 'gray.800')}
-        >
-            <Stack w="full" spacing={8} mx="auto" maxW="lg" py={12} px={6}>
-                <Stack align="center">
-                    <Heading fontSize="4xl">{t('sign-in')}</Heading>
-                    <Text fontSize="lg" color="gray.600">
-                        {t('new-here')}
-                        <NextLink href="/register" passHref>
-                            <Link color="orange.400">
-                                {t('create-account')}
-                            </Link>
-                        </NextLink>
-                    </Text>
-                </Stack>
-                <form onSubmit={onSubmit}>
-                    <Box
-                        rounded="lg"
-                        bg={useColorModeValue('white', 'gray.700')}
-                        boxShadow="2xl"
-                        p={8}
-                    >
-                        <Stack spacing={4}>
-                            <FormControl
-                                id="email"
-                                isInvalid={Boolean(errors.email)}
+        <>
+            <Head>
+                <title>{t('sign-in')}</title>
+            </Head>
+            <Stack minH="100vh" align="center" justify="center">
+                <Container maxW="lg">
+                    <Stack spacing="8">
+                        <Stack spacing="6">
+                            <Logo width={48} height={48} />
+                            <Stack
+                                spacing={{ base: '2', md: '3' }}
+                                textAlign="center"
                             >
-                                <FormLabel htmlFor="email">
-                                    {t('email')}
-                                </FormLabel>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="john@example.com"
-                                    {...register('email', {
-                                        required: t('required'),
+                                <Heading
+                                    size={useBreakpointValue({
+                                        base: 'xs',
+                                        md: 'sm',
                                     })}
-                                />
-                                <FormErrorMessage>
-                                    {errors.email && errors.email.message}
-                                </FormErrorMessage>
-                            </FormControl>
-                            <FormControl
-                                id="password"
-                                isInvalid={Boolean(errors.password)}
-                            >
-                                <FormLabel htmlFor="password">
-                                    {t('password')}
-                                </FormLabel>
-                                <InputGroup>
-                                    <Input
-                                        id="password"
-                                        placeholder="********"
-                                        type={
-                                            showPassword ? 'text' : 'password'
-                                        }
-                                        {...register('password', {
-                                            required: t('required'),
-                                        })}
-                                    />
-                                    <InputRightElement h="full">
-                                        <Button
-                                            variant="ghost"
-                                            onClick={() =>
-                                                setShowPassword((s) => !s)
-                                            }
-                                        >
-                                            {showPassword ? (
-                                                <ViewIcon />
-                                            ) : (
-                                                <ViewOffIcon />
-                                            )}
-                                        </Button>
-                                    </InputRightElement>
-                                </InputGroup>
-                                <FormErrorMessage>
-                                    {errors.password && errors.password.message}
-                                </FormErrorMessage>
-                            </FormControl>
-                            <Stack spacing={6}>
-                                <Controller
-                                    name="remember"
-                                    control={control}
-                                    render={({
-                                        field: { onChange, value, ref },
-                                    }) => (
-                                        <Checkbox
-                                            onChange={onChange}
-                                            ref={ref}
-                                            isChecked={value}
-                                        >
-                                            {t('remember')}
-                                        </Checkbox>
-                                    )}
-                                />
-                                <Button
-                                    bg="orange.400"
-                                    colorScheme="orange"
-                                    _hover={{
-                                        bg: 'orange.500',
-                                    }}
-                                    isLoading={isLoading}
-                                    type="submit"
                                 >
-                                    {t('sign-in-btn')}
-                                </Button>
-                                <HStack>
-                                    <Divider />
-                                    <Text
-                                        fontSize="sm"
-                                        whiteSpace="nowrap"
-                                        color="muted"
-                                    >
-                                        {t('or')}
-                                    </Text>
-                                    <Divider />
+                                    {t('sign-in')}
+                                </Heading>
+                                <HStack spacing="1" justify="center">
+                                    <Text color="muted">{t('new-here')}</Text>
+                                    <NextLink href="/register" passHref>
+                                        <Button
+                                            variant="link"
+                                            as={Link}
+                                            colorScheme="orange"
+                                        >
+                                            {t('create-account')}
+                                        </Button>
+                                    </NextLink>
                                 </HStack>
-                                <OAuthButtons />
                             </Stack>
                         </Stack>
-                    </Box>
-                </form>
+                        <form onSubmit={onSubmit}>
+                            <Box
+                                py={{ base: '0', sm: '8' }}
+                                px={{ base: '4', sm: '10' }}
+                                bg={useBreakpointValue({
+                                    base: 'transparent',
+                                    sm: 'bg-surface',
+                                })}
+                                boxShadow={{
+                                    base: 'none',
+                                    sm: useColorModeValue('md', 'md-dark'),
+                                }}
+                                borderRadius={{ base: 'none', sm: 'xl' }}
+                            >
+                                <Stack spacing="6">
+                                    <Stack spacing="5">
+                                        <FormControl
+                                            id="email"
+                                            isInvalid={Boolean(errors.email)}
+                                        >
+                                            <FormLabel htmlFor="email">
+                                                {t('email')}
+                                            </FormLabel>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                placeholder="john@example.com"
+                                                {...register('email', {
+                                                    required: t('required'),
+                                                })}
+                                            />
+                                            <FormErrorMessage>
+                                                {errors.email &&
+                                                    errors.email.message}
+                                            </FormErrorMessage>
+                                        </FormControl>
+                                        <FormControl
+                                            id="password"
+                                            isInvalid={Boolean(errors.password)}
+                                        >
+                                            <FormLabel htmlFor="password">
+                                                {t('password')}
+                                            </FormLabel>
+                                            <InputGroup>
+                                                <Input
+                                                    id="password"
+                                                    placeholder="********"
+                                                    type={
+                                                        isOpen
+                                                            ? 'text'
+                                                            : 'password'
+                                                    }
+                                                    autoComplete="current-password"
+                                                    {...register('password', {
+                                                        required: t('required'),
+                                                    })}
+                                                />
+                                                <InputRightElement>
+                                                    <IconButton
+                                                        variant="link"
+                                                        icon={
+                                                            isOpen ? (
+                                                                <HiEyeOff />
+                                                            ) : (
+                                                                <HiEye />
+                                                            )
+                                                        }
+                                                        aria-label={
+                                                            isOpen
+                                                                ? t(
+                                                                      'mask-password',
+                                                                  )
+                                                                : t(
+                                                                      'reveal-password',
+                                                                  )
+                                                        }
+                                                        onClick={onToggle}
+                                                    />
+                                                </InputRightElement>
+                                            </InputGroup>
+                                            <FormErrorMessage>
+                                                {errors.password &&
+                                                    errors.password.message}
+                                            </FormErrorMessage>
+                                        </FormControl>
+                                    </Stack>
+                                    <HStack>
+                                        <Controller
+                                            name="remember"
+                                            control={control}
+                                            render={({
+                                                field: { onChange, value, ref },
+                                            }) => (
+                                                <Checkbox
+                                                    onChange={onChange}
+                                                    ref={ref}
+                                                    isChecked={value}
+                                                >
+                                                    {t('remember')}
+                                                </Checkbox>
+                                            )}
+                                        />
+                                    </HStack>
+                                    <Stack spacing="6">
+                                        <Button
+                                            variant="primary"
+                                            isLoading={isLoading}
+                                            type="submit"
+                                        >
+                                            {t('sign-in-btn')}
+                                        </Button>
+                                        <HStack>
+                                            <Divider />
+                                            <Text
+                                                fontSize="sm"
+                                                whiteSpace="nowrap"
+                                                color="muted"
+                                            >
+                                                {t('or')}
+                                            </Text>
+                                            <Divider />
+                                        </HStack>
+                                        <HStack justify="center">
+                                            <OAuthButtons />
+                                        </HStack>
+                                    </Stack>
+                                </Stack>
+                            </Box>
+                        </form>
+                    </Stack>
+                </Container>
             </Stack>
-        </Flex>
+        </>
     );
 }
 
