@@ -240,7 +240,7 @@ function Header() {
                 bg="bg-surface"
                 boxShadow={useColorModeValue('sm', 'sm-dark')}
             >
-                <Container py={{ base: '4', lg: '5' }}>
+                <Container py={{ base: '3', lg: '4' }}>
                     <HStack justify="space-between" spacing="10">
                         {isDesktop || (
                             <IconButton
