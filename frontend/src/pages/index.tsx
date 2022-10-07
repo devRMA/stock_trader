@@ -62,12 +62,8 @@ function Index() {
                                 <Button
                                     as={Link}
                                     rounded="full"
-                                    bg="orange.400"
-                                    colorScheme="orange"
-                                    _hover={{
-                                        textDecoration: 'none',
-                                        bg: 'orange.500',
-                                    }}
+                                    variant="primary"
+                                    style={{ textDecoration: 'none' }}
                                 >
                                     {t('cta')}
                                 </Button>
