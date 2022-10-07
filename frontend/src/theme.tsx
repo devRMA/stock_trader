@@ -4,6 +4,7 @@ import { type ThemeConfig, extendTheme } from '@chakra-ui/react';
 const config: ThemeConfig = {
     initialColorMode: 'dark',
     useSystemColorMode: false,
+    disableTransitionOnChange: false,
 };
 
 const colors = {
@@ -17,6 +18,10 @@ const styles = {
         '*::placeholder': {
             opacity: 0.5,
             color: 'muted',
+        },
+        body: {
+            transitionProperty: 'background-color',
+            transitionDuration: 'ultra-slow',
         },
     },
 };
