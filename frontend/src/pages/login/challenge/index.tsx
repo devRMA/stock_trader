@@ -1,19 +1,21 @@
 import {
     Box,
     Button,
-    Flex,
+    Container,
     Heading,
     HStack,
-    Link,
     PinInput,
     PinInputField,
     Stack,
     Text,
+    useBreakpointValue,
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import Logo from 'components/Logo';
 import { GetStaticPropsContext } from 'next';
+import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -76,97 +78,113 @@ function Challenge() {
     });
 
     return (
-        <Flex
-            minH="100vh"
-            align="center"
-            justify="center"
-            bg={useColorModeValue('gray.50', 'gray.800')}
-        >
-            <Stack w="full" spacing={8} mx="auto" maxW="lg" py={12} px={6}>
-                <Stack align="center" spacing={5}>
-                    <Heading fontSize="4xl">{t('title')}</Heading>
-                    <Text fontSize="lg" color="gray.600">
-                        {t('description')}
-                    </Text>
-                </Stack>
-                <form onSubmit={onSubmit}>
-                    <Box
-                        rounded="lg"
-                        bg={useColorModeValue('white', 'gray.700')}
-                        boxShadow="2xl"
-                        py={12}
-                        px={6}
-                    >
-                        <Stack spacing={8}>
-                            <HStack justify="center">
-                                <Controller
-                                    name="code"
-                                    control={control}
-                                    rules={{
-                                        required: true,
-                                        minLength: 6,
-                                    }}
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <PinInput
-                                            onChange={onChange}
-                                            value={value}
-                                            isDisabled={isLoading}
-                                            isInvalid={!!error}
-                                            onComplete={() =>
-                                                submitBtn.current?.click()
-                                            }
-                                        >
-                                            <PinInputField />
-                                            <PinInputField />
-                                            <PinInputField />
-                                            <PinInputField />
-                                            <PinInputField />
-                                            <PinInputField />
-                                        </PinInput>
-                                    )}
-                                />
-                            </HStack>
-                            <Stack>
-                                <Text fontSize="sm">
-                                    <NextLink
-                                        href="/login/challenge/recovery"
-                                        passHref
-                                    >
-                                        <Link>{t('another-way')}</Link>
-                                    </NextLink>
-                                </Text>
+        <>
+            <Head>
+                <title>{t('title')}</title>
+            </Head>
+            <Stack minH="100vh" align="center" justify="center">
+                <Container maxW="lg">
+                    <Stack spacing="8">
+                        <Stack spacing="6">
+                            <Logo width={48} height={48} />
+                            <Stack
+                                spacing={{ base: '2', md: '3' }}
+                                textAlign="center"
+                            >
+                                <Heading
+                                    size={useBreakpointValue({
+                                        base: 'xs',
+                                        md: 'sm',
+                                    })}
+                                >
+                                    {t('title')}
+                                </Heading>
+                                <HStack spacing="1" justify="center">
+                                    <Text color="muted" textAlign="justify">
+                                        {t('description')}
+                                    </Text>
+                                </HStack>
                             </Stack>
-                            <HStack spacing={5}>
-                                <Button
-                                    w="full"
-                                    onClick={() => router.push('/login')}
-                                    textTransform="uppercase"
-                                >
-                                    {t('cancel')}
-                                </Button>
-                                <Button
-                                    bg="orange.400"
-                                    colorScheme="orange"
-                                    _hover={{
-                                        bg: 'orange.500',
-                                    }}
-                                    isLoading={isLoading}
-                                    type="submit"
-                                    ref={submitBtn}
-                                    w="full"
-                                    textTransform="uppercase"
-                                >
-                                    {t('send')}
-                                </Button>
-                            </HStack>
                         </Stack>
-                    </Box>
-                </form>
+                        <form onSubmit={onSubmit}>
+                            <Box
+                                py={{ base: '0', sm: '8' }}
+                                px={{ base: '4', sm: '10' }}
+                                bg={useBreakpointValue({
+                                    base: 'transparent',
+                                    sm: 'bg-surface',
+                                })}
+                                boxShadow={{
+                                    base: 'none',
+                                    sm: useColorModeValue('md', 'md-dark'),
+                                }}
+                                borderRadius={{ base: 'none', sm: 'xl' }}
+                            >
+                                <Stack spacing="6">
+                                    <HStack justify="center">
+                                        <Controller
+                                            name="code"
+                                            control={control}
+                                            rules={{
+                                                required: true,
+                                                minLength: 6,
+                                            }}
+                                            render={({
+                                                field: { onChange, value },
+                                            }) => (
+                                                <PinInput
+                                                    onChange={onChange}
+                                                    value={value}
+                                                    isDisabled={isLoading}
+                                                    onComplete={() =>
+                                                        submitBtn.current?.click()
+                                                    }
+                                                >
+                                                    <PinInputField />
+                                                    <PinInputField />
+                                                    <PinInputField />
+                                                    <PinInputField />
+                                                    <PinInputField />
+                                                    <PinInputField />
+                                                </PinInput>
+                                            )}
+                                        />
+                                    </HStack>
+                                    <HStack>
+                                        <NextLink href="/login/challenge/recovery">
+                                            <Button variant="link" size="sm">
+                                                {t('another-way')}
+                                            </Button>
+                                        </NextLink>
+                                    </HStack>
+                                    <HStack spacing={5}>
+                                        <Button
+                                            w="full"
+                                            onClick={() =>
+                                                router.push('/login')
+                                            }
+                                            textTransform="uppercase"
+                                        >
+                                            {t('cancel')}
+                                        </Button>
+                                        <Button
+                                            variant="primary"
+                                            isLoading={isLoading}
+                                            type="submit"
+                                            ref={submitBtn}
+                                            w="full"
+                                            textTransform="uppercase"
+                                        >
+                                            {t('send')}
+                                        </Button>
+                                    </HStack>
+                                </Stack>
+                            </Box>
+                        </form>
+                    </Stack>
+                </Container>
             </Stack>
-        </Flex>
+        </>
     );
 }
 
