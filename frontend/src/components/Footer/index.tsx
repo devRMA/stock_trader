@@ -1,17 +1,16 @@
 import {
-    Box,
+    ButtonGroup,
     Container,
+    Divider,
     Select,
     Stack,
     Text,
-    useColorModeValue,
 } from '@chakra-ui/react';
+import DarkModeSwitch from 'components/DarkModeSwitch';
+import SocialButton from 'components/SocialButton';
 import { useRouter } from 'next/router';
 import { ChangeEvent } from 'react';
 import { FaGithub } from 'react-icons/fa';
-
-import DarkModeSwitch from '../DarkModeSwitch';
-import SocialButton from '../SocialButton';
 
 function Footer() {
     const router = useRouter();
@@ -24,21 +23,19 @@ function Footer() {
     };
 
     return (
-        <Box
-            bg={useColorModeValue('gray.50', 'gray.900')}
-            color={useColorModeValue('gray.700', 'gray.200')}
-        >
-            <Container
-                as={Stack}
-                maxW="6xl"
-                py={4}
-                direction={{ base: 'column', md: 'row' }}
-                spacing={4}
-                justify={{ base: 'center', md: 'space-between' }}
-                align={{ base: 'center', md: 'center' }}
+        <Container as="footer" role="contentinfo">
+            <Divider />
+            <Stack
+                pt="8"
+                pb="12"
+                justify="space-between"
+                direction={{ base: 'column-reverse', md: 'row' }}
+                align="center"
             >
-                <Text>© 2022 devRMA</Text>
-                <Stack direction="row" spacing={4}>
+                <Text fontSize="sm" color="subtle">
+                    &copy; {new Date().getFullYear()} devRMA
+                </Text>
+                <ButtonGroup spacing={4}>
                     <SocialButton
                         label="Github"
                         href="https://github.com/devRMA/stock_trader"
@@ -46,7 +43,7 @@ function Footer() {
                         <FaGithub />
                     </SocialButton>
                     <DarkModeSwitch />
-                </Stack>
+                </ButtonGroup>
                 <Stack>
                     <Select
                         variant="filled"
@@ -61,8 +58,8 @@ function Footer() {
                         <option value="pt">Português</option>
                     </Select>
                 </Stack>
-            </Container>
-        </Box>
+            </Stack>
+        </Container>
     );
 }
 
