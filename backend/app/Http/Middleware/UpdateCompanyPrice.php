@@ -27,6 +27,7 @@ class UpdateCompanyPrice
                 config('game.company.reset_after')
             );
             Company::all()->each(function (Company $company) {
+                // TODO: change price variation algorithm
                 switch ($company->risk) {
                     case CompanyRisk::Low:
                         $chanceLoss = 20;
