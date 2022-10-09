@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from 'services/api';
 
 export interface User {
-    id: number;
+    id: string;
     name: string;
     email: string;
     money: number;
@@ -24,7 +24,7 @@ export interface UserState {
 
 const initialState: UserState = {
     user: {
-        id: 0,
+        id: '9775e014-e335-4dc3-b936-c3816107fad6',
         name: 'devRMA',
         email: 'example@devrma.com',
         money: 1000,
