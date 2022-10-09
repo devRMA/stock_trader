@@ -12,6 +12,7 @@ import Footer from 'components/Footer';
 import Header from 'components/Header';
 import Lottie from 'lottie-react';
 import { GetStaticPropsContext } from 'next';
+import Head from 'next/head';
 import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -21,6 +22,9 @@ function Index() {
 
     return (
         <>
+            <Head>
+                <title>Stock Trader</title>
+            </Head>
             <Header />
             <Stack minH="100vh" direction={{ base: 'column', md: 'row' }}>
                 <Flex p={8} flex={1} align="center" justify="center">

@@ -12,6 +12,7 @@ import DarkModeSwitch from 'components/DarkModeSwitch';
 import Header from 'components/Header';
 import Lottie from 'lottie-react';
 import { GetStaticPropsContext } from 'next';
+import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { selectUser, useAppSelector } from 'store/hooks';
@@ -24,6 +25,9 @@ function Banned() {
 
     return (
         <>
+            <Head>
+                <title>{t('title')}</title>
+            </Head>
             <Header />
             <Stack align="center">
                 <Flex w="200px" h="200px">
