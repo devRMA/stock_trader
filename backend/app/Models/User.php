@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,7 +34,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
  */
 class User extends Authenticatable implements HasMedia, BannableContract
 {
-    use HasApiTokens, HasFactory, TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, HasUuids, TwoFactorAuthenticatable;
 
     // @see https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model
     use InteractsWithMedia;

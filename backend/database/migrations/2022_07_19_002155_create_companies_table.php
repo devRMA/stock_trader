@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('companies', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->string('name');
             $table->unsignedBigInteger('sell_amount')->default(0);
             $table->unsignedBigInteger('buy_amount')->default(0);
@@ -24,6 +24,8 @@ return new class extends Migration
             $table->enum('risk', CompanyRisk::values());
             $table->unsignedBigInteger('max_actions')->default(1000);
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 
