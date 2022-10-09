@@ -49,8 +49,8 @@ class OAuthController extends Controller
         if ($user === null) {
             /** @var \App\Models\User */
             $user = User::create([
-                'name'              => $githubUser->getNickname(),
-                'email'             => $githubUser->getEmail(),
+                'name' => $githubUser->getNickname(),
+                'email' => $githubUser->getEmail(),
                 'email_verified_at' => now(),
             ]);
             $user->setAvatarFromUrl($githubUser->getAvatar());
@@ -100,8 +100,8 @@ class OAuthController extends Controller
         if ($user === null) {
             /** @var \App\Models\User */
             $user = User::create([
-                'name'              => head(explode(' ', $googleUser->getName())),
-                'email'             => $googleUser->getEmail(),
+                'name' => head(explode(' ', $googleUser->getName())),
+                'email' => $googleUser->getEmail(),
                 'email_verified_at' => now(),
             ]);
             $user->setAvatarFromUrl($googleUser->getAvatar());
@@ -151,8 +151,8 @@ class OAuthController extends Controller
         if ($user === null) {
             /** @var \App\Models\User */
             $user = User::create([
-                'name'              => $discordUser->getName(),
-                'email'             => $discordUser->getEmail(),
+                'name' => $discordUser->getName(),
+                'email' => $discordUser->getEmail(),
                 'email_verified_at' => now(),
             ]);
             $user->setAvatarFromUrl($discordUser->getAvatar());
@@ -166,13 +166,14 @@ class OAuthController extends Controller
     /**
      * Redirect to url with data in query parameters
      *
-     * @param string $to
-     * @param array<string, mixed> $bag
+     * @param  string  $to
+     * @param  array<string, mixed>  $bag
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function redirectWith(string $to, array $bag = [])
     {
-        $url = count($bag) > 0 ? ($to . '?' . http_build_query($bag)) : $to;
+        $url = count($bag) > 0 ? ($to.'?'.http_build_query($bag)) : $to;
+
         return redirect()->away($url);
     }
 }
