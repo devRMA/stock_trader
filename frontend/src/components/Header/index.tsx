@@ -242,21 +242,23 @@ function Header() {
             >
                 <Container py={{ base: '3', lg: '4' }}>
                     <HStack justify="space-between" spacing="10">
-                        {isDesktop || (
-                            <IconButton
-                                onClick={onToggle}
-                                icon={
-                                    isOpen ? (
-                                        <CloseIcon w={3} h={3} />
-                                    ) : (
-                                        <HamburgerIcon w={5} h={5} />
-                                    )
-                                }
-                                variant="ghost"
-                                aria-label={t('toggle-navigation')}
-                            />
-                        )}
-                        <Logo />
+                        <Flex>
+                            {isDesktop || (
+                                <IconButton
+                                    onClick={onToggle}
+                                    icon={
+                                        isOpen ? (
+                                            <CloseIcon w={3} h={3} />
+                                        ) : (
+                                            <HamburgerIcon w={5} h={5} />
+                                        )
+                                    }
+                                    variant="ghost"
+                                    aria-label={t('toggle-navigation')}
+                                />
+                            )}
+                            <Logo />
+                        </Flex>
                         {isDesktop && <DesktopNav />}
                         {isDesktop ||
                             (logged ? (
