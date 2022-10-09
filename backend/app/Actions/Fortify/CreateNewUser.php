@@ -36,6 +36,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'money' => config('game.user.default_money'),
         ]);
     }
 }
