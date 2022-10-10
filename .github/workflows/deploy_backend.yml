@@ -16,5 +16,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "backend"
-          target: "/home/${{ secrets.SSH_USERNAME }}/stocktrader/backend"
+          source: "./"
+          target: "/home/${{ secrets.SSH_USERNAME }}/stocktrader"
