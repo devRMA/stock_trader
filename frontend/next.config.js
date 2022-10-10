@@ -9,6 +9,9 @@ const nextConfig = {
     reactStrictMode: true,
     i18n,
     trailingSlash: true,
+    env: {
+        API_URL: process.env.API_URL,
+    },
 };
 
 module.exports = withPWA(nextConfig);
