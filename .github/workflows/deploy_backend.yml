@@ -1,9 +1,7 @@
 name: Deploy Backend
 
 on:
-  push:
-    branches: ["main"]
-    paths: ["backend/**"]
+  push
 
 jobs:
   deploy:
@@ -19,4 +17,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: "backend"
-          target: "/home/${{ secrets.SSH_USERNAME }}/stocktrader"
+          target: "/home/${{ secrets.SSH_USERNAME }}/stocktrader/backend"
