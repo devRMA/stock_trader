@@ -19,4 +19,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: "./"
-          target: "/home/${{ secrets.SSH_USERNAME }}/stocktrader"
+          target: "/home/${{ secrets.SSH_USERNAME }}/stock_trader"
