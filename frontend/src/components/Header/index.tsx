@@ -66,7 +66,7 @@ function AuthLinks({ isDesktop }: { isDesktop: boolean }) {
                 </Button>
             </NextLink>
             {isDesktop && (
-                <NextLink href="/register" passHref>
+                <NextLink href="#register" passHref>
                     <Button
                         as={Link}
                         variant="primary"

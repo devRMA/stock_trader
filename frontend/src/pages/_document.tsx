@@ -7,10 +7,7 @@ export default class Document extends NextDocument {
         return (
             <Html>
                 <Head>
-                    <meta
-                        name="google-site-verification"
-                        content="iUxNyN-K3GLaqGNs8tq2mnFfiKc9X0USiTnQP9nqOpg"
-                    />
+                    <meta name="google-site-verification" content="iUxNyN-K3GLaqGNs8tq2mnFfiKc9X0USiTnQP9nqOpg" />
                     <meta name="application-name" content="Stock Trader" />
                     <meta name="apple-mobile-web-app-capable" content="yes" />
                     <meta
@@ -64,7 +61,7 @@ export default class Document extends NextDocument {
                     <meta name="twitter:card" content="summary" />
                     <meta
                         name="twitter:url"
-                        content="https://stocktrader.devrma.com/"
+                        content="https://stock-trader-blush.vercel.app/"
                     />
                     <meta name="twitter:title" content="Stock Trader" />
                     <meta
@@ -73,7 +70,7 @@ export default class Document extends NextDocument {
                     />
                     <meta
                         name="twitter:image"
-                        content="https://stocktrader.devrma.com/android-chrome-192x192.png"
+                        content="https://stock-trader-blush.vercel.app//android-chrome-192x192.png"
                     />
                     <meta property="og:type" content="website" />
                     <meta property="og:title" content="Stock Trader" />
@@ -84,11 +81,11 @@ export default class Document extends NextDocument {
                     <meta property="og:site_name" content="Stock Trader" />
                     <meta
                         property="og:url"
-                        content="https://stocktrader.devrma.com/"
+                        content="https://stock-trader-blush.vercel.app/"
                     />
                     <meta
                         property="og:image"
-                        content="https://stocktrader.devrma.com/apple-touch-icon.png"
+                        content="https://stock-trader-blush.vercel.app//apple-touch-icon.png"
                     />
                 </Head>
                 <body>
