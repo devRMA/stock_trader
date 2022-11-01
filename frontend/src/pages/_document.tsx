@@ -7,6 +7,7 @@ export default class Document extends NextDocument {
         return (
             <Html>
                 <Head>
+                    <meta name="google-site-verification" content="iUxNyN-K3GLaqGNs8tq2mnFfiKc9X0USiTnQP9nqOpg" />
                     <meta name="application-name" content="Stock Trader" />
                     <meta name="apple-mobile-web-app-capable" content="yes" />
                     <meta
