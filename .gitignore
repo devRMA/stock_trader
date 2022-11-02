@@ -239,3 +239,7 @@ sw.js
 sw.js.map
 workbox-*.js
 workbox-*.js.map
+
+# next-sitemap
+robots.txt
+sitemap*.xml
