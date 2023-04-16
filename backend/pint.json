@@ -1,0 +1,13 @@
+{
+  "preset": "psr12",
+  "rules": {
+    "@PhpCsFixer": true,
+    "multiline_whitespace_before_semicolons": {
+      "strategy": "no_multi_line"
+    },
+    "no_superfluous_phpdoc_tags": false,
+    "phpdoc_no_empty_return": false,
+    "simplified_null_return": false,
+    "void_return": false
+  }
+}
