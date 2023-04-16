@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "devrma/investopia",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Investopia is a stock investment simulation game where players can practice their investment skills virtually.",
+    "keywords": ["game"],
     "license": "MIT",
     "require": {
         "php": "^8.1",
