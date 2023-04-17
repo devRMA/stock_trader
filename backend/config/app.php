@@ -179,6 +179,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         // Package Service Providers...
+        App\Providers\FortifyServiceProvider::class,
         Cog\Laravel\Ban\Providers\BanServiceProvider::class,
 
         // Application Service Providers...
