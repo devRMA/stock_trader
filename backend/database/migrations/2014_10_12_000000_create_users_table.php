@@ -14,6 +14,7 @@ return new class() extends Migration {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('money')->default(config('game.user.start_money'));
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
