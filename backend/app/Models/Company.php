@@ -20,6 +20,9 @@ class Company extends Model
         'name',
         'money_invested',
         'balance',
+        'ipo',
+        'selling_percentage',
+        'share_price',
     ];
 
     /**

@@ -13,11 +13,14 @@ return new class() extends Migration {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('money_invested')->default(0);
-            $table->string('balance')->default(0);
             $table->foreignId('user_id')
                 ->constrained()
                 ->onDelete('cascade');
+            $table->string('money_invested')->default('0');
+            $table->string('balance')->default('0');
+            $table->boolean('ipo')->default(false);
+            $table->decimal('selling_percentage', 5, 2)->default(0);
+            $table->integer('share_price')->default(0);
             $table->timestamps();
         });
     }
