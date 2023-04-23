@@ -21,6 +21,12 @@ class CompanyController extends Controller
         /** @var \App\Models\User */
         $user = auth()->user();
 
+        abort_unless(
+            $user->money >= config('game.company.price_to_create'),
+            JsonResponse::HTTP_PAYMENT_REQUIRED,
+            'You do not have enough money to create a company.'
+        );
+
         $company = Company::query()
             ->create([
                 'user_id' => $user->id,
@@ -31,6 +37,10 @@ class CompanyController extends Controller
                 'share_price' => 0,
                 ...$request->validated(),
             ]);
+
+        $user->update([
+            'money' => $user->money - config('game.company.price_to_create'),
+        ]);
 
         return response()
             ->json(new CompanyResource($company), JsonResponse::HTTP_CREATED);
