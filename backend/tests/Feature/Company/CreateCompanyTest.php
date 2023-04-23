@@ -2,7 +2,6 @@
 
 use App\Models\Company;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Faker\fake;
@@ -20,7 +19,7 @@ it('should return error when the user tries to create a company, without money',
     postJson(route('companies.create'), [
         'name' => $companyName,
     ])
-        ->assertStatus(Response::HTTP_PAYMENT_REQUIRED);
+        ->assertPaymentRequired();
 
     assertDatabaseMissing(Company::class, [
         'name' => $companyName,
@@ -36,7 +35,7 @@ it("should decrease the user's money, after he creates a company", function () {
     postJson(route('companies.create'), [
         'name' => fake()->name,
     ])
-        ->assertStatus(Response::HTTP_CREATED);
+        ->assertCreated();
 
     $user->refresh();
 
@@ -53,9 +52,22 @@ it('should save the company in the database, when the user creates a new company
     postJson(route('companies.create'), [
         'name' => $companyName,
     ])
-        ->assertStatus(Response::HTTP_CREATED);
+        ->assertCreated();
 
     assertDatabaseHas(Company::class, [
         'name' => $companyName,
     ]);
+});
+
+it('should return 422 if the post is invalid', function () {
+    /** @var \App\Models\User */
+    $user = User::factory()->withInfinityMoney()->create();
+
+    Sanctum::actingAs($user, guard: 'web');
+
+    postJson(route('companies.create'))
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors([
+            'name',
+        ]);
 });
