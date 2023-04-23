@@ -9,6 +9,13 @@ use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth')->only([
+            'create',
+            'myCompanies',
+        ]);
+    }
+
     /**
      * Return all companies that the user created.
      *
@@ -44,5 +51,21 @@ class CompanyController extends Controller
 
         return response()
             ->json(new CompanyResource($company), JsonResponse::HTTP_CREATED);
+    }
+
+    /**
+     * Return all companies that the user created.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function myCompanies(): JsonResponse
+    {
+        /** @var \App\Models\User */
+        $user = auth()->user();
+
+        return response()
+            ->json(
+                CompanyResource::collection($user->companies)
+            );
     }
 }

@@ -23,10 +23,6 @@ Route::controller(UserController::class)
                 // GET users/@me
                 Route::get('', 'me')
                     ->name('index');
-
-                // GET users/@me/companies
-                Route::get('companies', 'myCompanies')
-                    ->name('companies');
             });
     });
 
@@ -37,4 +33,8 @@ Route::controller(CompanyController::class)
         // POST companies
         Route::post('', 'create')
             ->name('create');
+
+        // GET companies/@me
+        Route::get('@me', 'myCompanies')
+            ->name('my_companies');
     });
