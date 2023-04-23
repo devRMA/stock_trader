@@ -4,16 +4,18 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Faker\fake;
-use function Pest\Laravel\{assertDatabaseHas, postJson, assertDatabaseMissing};
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\postJson;
 
-
-it('should return error when the user tries to create a company, without money', function() {
+it('should return error when the user tries to create a company, without money', function () {
     /** @var \App\Models\User */
     $user = User::factory()->withoutMoney()->create();
     $companyName = fake()->name;
 
-    Sanctum::actingAs($user, guard:'web');
+    Sanctum::actingAs($user, guard: 'web');
 
     postJson(route('companies.create'), [
         'name' => $companyName,
@@ -25,11 +27,11 @@ it('should return error when the user tries to create a company, without money',
     ]);
 });
 
-it("should decrease the user's money, after he creates a company", function() {
+it("should decrease the user's money, after he creates a company", function () {
     /** @var \App\Models\User */
     $user = User::factory()->withMoney(config('game.company.price_to_create') * 2)->create();
 
-    Sanctum::actingAs($user, guard:'web');
+    Sanctum::actingAs($user, guard: 'web');
 
     postJson(route('companies.create'), [
         'name' => fake()->name,
@@ -41,12 +43,12 @@ it("should decrease the user's money, after he creates a company", function() {
     expect($user->money)->toEqual(config('game.company.price_to_create'));
 });
 
-it('should save the company in the database, when the user creates a new company', function() {
+it('should save the company in the database, when the user creates a new company', function () {
     /** @var \App\Models\User */
     $user = User::factory()->withInfinityMoney()->create();
     $companyName = fake()->name;
 
-    Sanctum::actingAs($user, guard:'web');
+    Sanctum::actingAs($user, guard: 'web');
 
     postJson(route('companies.create'), [
         'name' => $companyName,
