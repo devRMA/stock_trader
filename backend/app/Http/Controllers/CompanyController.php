@@ -9,7 +9,8 @@ use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth')->only([
             'create',
             'myCompanies',
